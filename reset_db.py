@@ -12,8 +12,6 @@ cur.execute(reset_script)
 
 
 """ COMMITTING CHANGES AND CLOSING THE CONNECTION """
-conn.commit()
-cur.close()
-conn.close()
+conn.commit(); cur.close(); conn.close()
 
 print("DONE")
