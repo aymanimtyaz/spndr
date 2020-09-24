@@ -1,1 +1,3 @@
 *.bat
+__pycache__
+bot_token.txt
