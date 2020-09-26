@@ -12,7 +12,7 @@ class communicate:
 
     service_url_prefix = 'https://api.telegram.org/bot'
 
-    def __init__(self, offset=0, limit=1, timeout=100, allowed_updates=[], init=0):
+    def __init__(self, offset=0, limit=100, timeout=100, allowed_updates=[], init=0):
         self.token = open(os.getcwd()+'//bot_token.txt').read()
         self.offset = offset
         self.limit = limit

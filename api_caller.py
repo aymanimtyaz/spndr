@@ -9,7 +9,7 @@ def init_obj(fn):
         return fn(com, kargs, kwargs)
     return wrapper
 
-''' FUNCTION TO RECIEVE THE OLDEST UNREAD MESSAGE '''
+''' FUNCTION TO RECEIVE THE LATEST UNREAD MESSAGE '''
 @init_obj
 def getMsg(*args):
     #print(args[0])
@@ -17,10 +17,10 @@ def getMsg(*args):
     while json_obj is None:
         json_obj = args[0].receive()
 
-    sender_id = json_obj['result'][0]['message']['from']['id']
-    message_body = json_obj['result'][0]['message']['text']
-    chat_id = json_obj['result'][0]['message']['chat']['id']
-    update_id = json_obj['result'][0]['update_id']
+    sender_id = json_obj['result'][-1]['message']['from']['id']
+    message_body = json_obj['result'][-1]['message']['text']
+    chat_id = json_obj['result'][-1]['message']['chat']['id']
+    update_id = json_obj['result'][-1]['update_id']
 
     return sender_id, message_body, chat_id, update_id
 
