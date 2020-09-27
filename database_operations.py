@@ -1,3 +1,24 @@
+''' This module acts as a wrapper for the psycopg2 module that allows us to work with our PostgreSQL database.
+
+
+    FUNCTIONS IN THIS MODULE
+
+    1. getTransactionState() - Retrieves the transaction state of the sender of the message currently being processed.
+                               If the sender doesn't have an ongoing transaction, it will return None.
+
+    2. createNewTransaction() - If the sender has sent 'new' when their transaction state is none. A new transaction
+                                will be initiated for them, and their transaction state will be increased to 0.
+
+    3. updateTransaction() - Increments the transaction state and commits the newly provided date from the user to the 
+                             current_transaction database.
+                             It also calls commitTransaction() when a transaction has been completed. That is, when
+                             the transaction state equals 4.
+
+    4. commitTransaction() - Once a transaction has been completed. The transaction information is taken from the 
+                             current_transaction database and committed to the transactions database.
+
+'''
+
 import psycopg2 as pg2 
 import os
 

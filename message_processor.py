@@ -1,10 +1,18 @@
-''' TRANSACTION STATES:
-    None - No transaction is currently ongoing for the current sender
-    0 -
-    '''
+''' This module is the can be thought of as the hearf of the entire program. All the messages that are sent
+    to the bot are processed here, giving thought to the context in which that message was sent.
 
+    The module processes the message, does the required database operation and returns the correct contextual 
+    reply to the calling function.
 
+    FUNCTIONS IN THIS MODULE
 
+    1. return_message() - This is currently the only function in this module. It carries out the entire 
+                          working of this module as explained above. 
+                          A lot of the functionality in this module will be removed and separate functions 
+                          will be made for those functionalities. This will be done to improve the code's
+                          readibility and to improve the running of the program (if possible)
+
+'''
 import os
 import database_operations as db
 

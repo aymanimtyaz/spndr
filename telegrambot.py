@@ -1,10 +1,15 @@
-'''**********************************************************************************************
+''' This is a simple wrapper class that implements a low level abstraction on the calling of the 
+    telegram API. Please go to https://core.telegram.org/bots/api to look at the API's documentation 
+    and to gain a better understanding of how this wrapper works.
 
-This is a simple wrapper class that implements a low level abstraction on the calling of the 
-telegram API. Please go to https://core.telegram.org/bots/api to look at the API's documentation 
-and to gain a better understanding of how this wrapper works.
+    FUNCTIONS IN THIS MODULE
 
-**********************************************************************************************'''
+    1. receive() - receive() implements the /getUpdates method of the API, all the parameters for this call 
+                   have been taken as attributes of the calling object.
+    2. send() - send() implements the /sendMessage method of the API, the necessary parameters for this
+                call are the chat id which is unique for each chat/user and the text message to send.
+
+'''
 
 import requests, json, os
 
@@ -21,10 +26,6 @@ class communicate:
         self.data = None
         self.init = init
 
-
-
-    ''' receive() implements the /getUpdates method of the API, all the parameters for this call 
-        have been taken as attributes of the calling object'''
     def receive(self):
         #print('in receive')
         api_params = {"offset":self.offset, "limit":self.limit,
@@ -43,9 +44,6 @@ class communicate:
         #print('returning to getMsg')
         return self.data
 
-
-    ''' send() implements the /sendMessage method of the API, the necessary parameters for this
-        call are the chat id which is unique for each chat/user and the text message to send '''
     def send(self, chat_id, text):
         api_params = {"chat_id":chat_id, "text":text}
 
