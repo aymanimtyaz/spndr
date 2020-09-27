@@ -1,0 +1,2 @@
+The price can not be zero or negative.
+Please enter a price greater than zero.

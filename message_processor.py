@@ -17,15 +17,26 @@ def return_message(message, sender_id):
             return open(os.getcwd()+'//replies//standard_transaction//transaction_state_zero.txt').read()
 
     else:
+        if transaction_state == 1:
+            try:
+                float(message)
+            except ValueError:
+                return open(os.getcwd()+'//replies//standard_transaction//price_should_be_numeric.txt').read()
+            if float(message) <= 0:
+                return open(os.getcwd()+'//replies//standard_transaction//price_zero_or_negative.txt').read()
+
         db.updateTransaction(sender_id, message, transaction_state)
+
         if transaction_state == 0:
             return open(os.getcwd()+'//replies//standard_transaction//transaction_state_one.txt').read()
-        if transaction_state == 1:
+        if transaction_state == 1:   
             return open(os.getcwd()+'//replies//standard_transaction//transaction_state_two.txt').read()
         if transaction_state == 2:
             return open(os.getcwd()+'//replies//standard_transaction//transaction_state_three.txt').read()
         if transaction_state == 3:
             return open(os.getcwd()+'//replies//standard_transaction//transaction_state_four.txt').read()
+
+        
 
         
 

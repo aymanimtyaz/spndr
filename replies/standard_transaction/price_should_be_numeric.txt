@@ -1,0 +1,2 @@
+Please enter a numeric value for 
+the price.
