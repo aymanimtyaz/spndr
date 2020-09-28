@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS transactions(
 CREATE TABLE IF NOT EXISTS current_transaction(
 	u_id BIGINT NOT NULL PRIMARY KEY UNIQUE REFERENCES users (id),
 	transaction_state INTEGER NOT NULL,
+	previous_transaction_state INTEGER,
 	item TEXT,
 	price DECIMAL CHECK(price > 0),
 	vendor TEXT,
