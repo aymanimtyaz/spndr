@@ -1,0 +1,4 @@
+LIST OF AVAILABLE COMMANDS:
+
+!abort - aborts the current transaction.
+!help - brings up this dialogue.

@@ -1,0 +1,2 @@
+The ongoing transaction was
+successfully aborted.

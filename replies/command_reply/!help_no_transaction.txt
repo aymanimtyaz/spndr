@@ -1,0 +1,5 @@
+LIST OF AVAILABLE COMMANDS:
+
+new - starts a new transaction.
+!help - Brings up this dialogue.      
+
