@@ -17,6 +17,7 @@
     4. commitTransaction() - Once a transaction has been completed. The transaction information is taken from the 
                              current_transaction database and committed to the transactions database.
 
+    5. abortTransaction() - Aborts an ongoing transaction when the user gives the !abort command
 '''
 
 import psycopg2 as pg2 
@@ -80,6 +81,27 @@ def commitTransaction(sender_id):
     cur.execute(delete_completed_transaction_script, {"sender_id":sender_id})
 
     con.commit(); cur.close(); con.close()
+
+def abortTransaction(message, sender_id, transaction_state):
+    con = pg2.connect(database='spndr', user='postgres', password='password')
+    cur = con.cursor()
+
+    if message == '!abort':
+        init_abort_transaction_script = open(os.getcwd()+'//sql_scripts//init_abort_transaction.sql').read()
+        cur.execute(init_abort_transaction_script, 
+                    {"previous_transaction_state":transaction_state, "sender_id":sender_id})
+    
+    if transaction_state == 5:
+        if message == 'y':
+            confirm_abort_transaction_script = open(os.getcwd()+'//sql_scripts//confirm_abort_transaction.sql').read()
+            cur.execute(confirm_abort_transaction_script, {"sender_id":sender_id})
+
+        elif message == 'n':
+            stop_abort_transaction_script = open(os.getcwd()+'//sql_scripts//stop_abort_transaction.sql').read()
+            cur.execute(stop_abort_transaction_script, {"sender_id":sender_id})
+    
+    con.commit(); cur.close(); con.close()
+
 
 
 
