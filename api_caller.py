@@ -1,4 +1,5 @@
 from telegrambot import communicate
+import json
 
 
 ''' FUNCTION TO INITIALIZE communicate() class OBJECT WHENEVER ANY OF THE SUBSEQUENT 
@@ -17,11 +18,17 @@ def getMsg(*args):
     while json_obj is None:
         json_obj = args[0].receive()
 
+    open('gif_json.json', 'w').write(json.dumps(json_obj, indent=4))
     sender_id = json_obj['result'][-1]['message']['from']['id']
-    message_body = json_obj['result'][-1]['message']['text']
     chat_id = json_obj['result'][-1]['message']['chat']['id']
     update_id = json_obj['result'][-1]['update_id']
 
+    try:
+        message_body = json_obj['result'][-1]['message']['text']
+    except KeyError:
+        return sender_id, '!non_text_input', chat_id, update_id
+
+    message_body = json_obj['result'][-1]['message']['text']
     return sender_id, message_body, chat_id, update_id
 
 ''' FUNCTION TO SEND MESSAGE '''
