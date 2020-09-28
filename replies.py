@@ -37,6 +37,8 @@ def wrong_input_reply(input_error_code):
         return open(rep_dir+'price_zero_or_negative.txt').read()
     if input_error_code == 3:
         return open(rep_dir+'abort_state_reply_y_or_n.txt').read()
+    if input_error_code == 4:
+        return open(rep_dir+'unreg_sender_wrong_mssg.txt').read()
 
 def special_reply(state):
     rep_dir = os.getcwd()+'//replies//special_replies//'
@@ -53,3 +55,15 @@ def command_reply(command):
         return open(rep_dir+'!help_ongoing_transaction.txt').read()
     if command == 3:
         return open(rep_dir+'!abort_surety_check.txt').read()
+
+def unregistered_sender_reply(state):
+    rep_dir = os.getcwd()+'//replies//unregistered_senders//'
+    if state == 1:
+        return open(rep_dir+'brand_new_sender.txt').read()
+    if state == 2:
+        return open(rep_dir+'new_sender_yes.txt').read()
+    if state == 3:
+        return open(rep_dir+'new_sender_no.txt').read()
+    
+
+    

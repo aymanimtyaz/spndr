@@ -102,6 +102,35 @@ def abortTransaction(message, sender_id, transaction_state):
     
     con.commit(); cur.close(); con.close()
 
+def checkCreds(sender_id):
+    con = pg2.connect(database='spndr', user='postgres', password='password')
+    cur = con.cursor()
+    check_creds_script = open(os.getcwd()+'//sql_scripts//check_creds.sql').read()
+    cur.execute(check_creds_script, {"sender_id":sender_id})
+    creds_exist = cur.fetchone()[0]
+    con.commit(); cur.close(); con.close()
+    if creds_exist:
+        return True
+    return False
+
+def createAccount(sender_id):
+    con = pg2.connect(database='spndr', user='postgres', password='password')
+    cur = con.cursor()
+    create_account_script = open(os.getcwd()+'//sql_scripts//create_account.sql').read()
+    cur.execute(create_account_script, {"sender_id":sender_id})
+    con.commit(); cur.close(); con.close()
+    
+def deleteNewSender(sender_id):
+    con = pg2.connect(database='spndr', user='postgres', password='password')
+    cur = con.cursor()
+    delete_new_sender_script = open(os.getcwd()+'//sql_scripts//delete_new_sender.sql').read()
+    cur.execute(delete_new_sender_script, {"sender_id":sender_id})
+    con.commit(); cur.close(); con.close()
+
+    
+
+
+
 
 
 

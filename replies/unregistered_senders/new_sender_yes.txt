@@ -1,0 +1,18 @@
+Congratulation! You have successfully 
+signed up for spndr!
+
+To use spndr, all you have to do is 
+follow what we tell you. To start a 
+new transaction, simply send 'new' 
+and we will start a transaction for 
+you!
+
+If you want to abort an ongoing
+transaction, send '!abort' and we 
+will stop the transaction.
+
+If you ever get stuck, send '!help'
+and we will be there to guide you.
+
+happy spndng!
+

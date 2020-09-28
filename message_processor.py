@@ -24,8 +24,9 @@
     ransaction states won't be used.
 
     Currently, the transaction states are:
-     None - This is the default state for all senders. All conversations between the bot and the sender will start from this
-            state.
+
+     None - This is the default state for all senders who don't have an ongoing transaction. All conversations between the 
+            bot and the sender will start from this state.
     
      0 - This is the state when the sender has initiated a new transaction. At this stage, the sender has to enter the item
          or service that they have purchased.
@@ -57,6 +58,11 @@ import replies as r
 
 def return_message(message, sender_id, chat_id):
     transaction_state = db.getTransactionState(sender_id)
+    cred_state = db.checkCreds(sender_id)
+    print(cred_state)
+
+    if cred_state is False:
+        return process_unreg_sender(message, sender_id, transaction_state)
 
     if message.startswith('!'):
             return process_command(message, transaction_state, sender_id)
@@ -104,6 +110,21 @@ def process_command(message, transaction_state, sender_id):
     
     elif transaction_state == 5:
         return r.wrong_input_reply(3)
+
+def process_unreg_sender(message, sender_id, transaction_state):
+    if transaction_state is None:
+        db.createNewTransaction(sender_id)
+        return r.unregistered_sender_reply(state = 1)
+    if transaction_state == 0:
+        if message == 'y' or message == 'n':
+            db.deleteNewSender(sender_id)
+            if message == 'y':
+                db.createAccount(sender_id)
+                return r.unregistered_sender_reply(state = 2)
+            return r.unregistered_sender_reply(state = 3)
+        return r.wrong_input_reply(input_error_code = 4)
+
+
 
 
     
