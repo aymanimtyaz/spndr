@@ -101,6 +101,9 @@ def process_command(message, transaction_state, sender_id):
         if message == '!abort':
             db.abortTransaction(message, sender_id, transaction_state)
             return r.command_reply(command = 3)
+    
+    elif transaction_state == 5:
+        return r.wrong_input_reply(3)
 
 
     
