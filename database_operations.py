@@ -86,7 +86,7 @@ def abortTransaction(message, sender_id, transaction_state):
     con = pg2.connect(database='spndr', user='postgres', password='password')
     cur = con.cursor()
 
-    if message == '!abort':
+    if message.lower() == '!abort':
         init_abort_transaction_script = open(os.getcwd()+'//sql_scripts//init_abort_transaction.sql').read()
         cur.execute(init_abort_transaction_script, 
                     {"previous_transaction_state":transaction_state, "sender_id":sender_id})

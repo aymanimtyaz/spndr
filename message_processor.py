@@ -74,7 +74,7 @@ def return_message(message, sender_id, chat_id):
             return process_command(message, transaction_state, sender_id)
 
     if transaction_state is None:
-        if message == 'new':
+        if message.lower() == 'new':
             db.createNewTransaction(sender_id)
             return r.standard_reply(transaction_state)
 
@@ -104,13 +104,13 @@ def return_message(message, sender_id, chat_id):
 
 def process_command(message, transaction_state, sender_id):
     if transaction_state is None:
-        if message == '!help':
+        if message.lower() == '!help':
             return r.command_reply(command = 1)
     
     elif transaction_state in range(0, 4):
-        if message == '!help':
+        if message.lower() == '!help':
             return r.command_reply(command = 2)
-        if message == '!abort':
+        if message.lower() == '!abort':
             db.abortTransaction(message, sender_id, transaction_state)
             return r.command_reply(command = 3)
     
