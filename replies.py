@@ -3,15 +3,20 @@
     FUNCTIONS IN THIS MODULE
     
     1. standard_reply() - This function returns the replies made by the bot when a transaction is going on.
+
     2. wrong_input_reply() - This function returns the replies made by the bot when the sender has entered an input
-                             /message that is not valid in the current context of the conversation.
+                             /message that is not valid/actionable in the current context of the conversation.
+
     3. special_reply() - This function returns the replies made by the bot in special circumstances. For now,
                          the replies that this function returns have arbitrarily been placed in it as they didn't
                          fit in any of the other reply functions. Once their 'fit' has been decided, they will be 
                          moved.
+
     4. command_reply() - This function returns the replies made by the bot when a command message has been sent to 
                          it. This function is called from process_command() function.
-
+    
+    5. unregistered_sender_reply() - This function return the replies made by the bot when a new/unregistered sender
+                                     sends a message to the bot.
 '''
 
 import os

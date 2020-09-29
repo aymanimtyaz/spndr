@@ -8,11 +8,17 @@
 
     1. return_message() - This function is the heart of the module. The messages sent to the bot are first sent
                           here to be processed. 
+
     2. process_command() - This function is used to process command messages, commands that start with an
                            exclamation mark are considered to be command messages. The command messages are
                            processed taking the context of the conversation as an argument (transaction_state)
                            For more information on transaction_states, please scroll below to its corresponding
                            section.
+    
+    3. process_unreg_sender() - This function is called when database_operations.credCheck() returns False for
+                                a particular sender_id, which means that the sender isn't registered with the 
+                                service.
+    
                            
     TRANSACTION STATES
     Transaction states are a property of each message and sender pair. They describe the context in which the sender has 
@@ -21,7 +27,7 @@
 
     Transaction states are only needed when a line of conversation between the bot and the sender spans more than one
     message and reply. If one message and reply is enough to start and end the conversation between the bot and the sender,
-    ransaction states won't be used.
+    transaction states won't be used.
 
     Currently, the transaction states are:
 
@@ -40,11 +46,11 @@
      3 - This is the state after the seller of the purchase has been entered by the sender, ther sender has to enter the
          category that they would like to put this purchase in.
     
-     4 - this is the state after the category of the purchase has been entered by the sender. At this stage, all the 
+     4 - This is the state after the category of the purchase has been entered by the sender. At this stage, all the 
          necessary information regarding a purchase has been entered by the sender, and can now be committed to the 
          main transactions database.
 
-     5 - this is the state after and !abort command has been entered by the sender when they have an ongoing transaction.
+     5 - This is the state after and !abort command has been entered by the sender when they have an ongoing transaction.
          When this stage is entered, a confirmatory check is made to the sender to confirm the abortion of the current
          transaction.
                           
