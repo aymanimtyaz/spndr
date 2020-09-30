@@ -31,8 +31,8 @@ class communicate:
         api_params = {"offset":self.offset, "limit":self.limit,
                       "timeout":self.timeout, "allowed_updates":self.allowed_updates}
         #print("waiting for input")
-        req_obj = requests.get(self.service_url_prefix+self.token+'/getUpdates', 
-                               params=api_params)
+        req_obj = requests.post(self.service_url_prefix+self.token+'/getUpdates', 
+                               data=api_params)
         self.data = req_obj.json()
         #print(json.dumps(self.data, indent=4))
         if len(self.data['result'])==0:
@@ -47,8 +47,8 @@ class communicate:
     def send(self, chat_id, text):
         api_params = {"chat_id":chat_id, "text":text}
 
-        req_obj = requests.get(self.service_url_prefix+self.token+'/sendMessage',
-                               params=api_params)
+        req_obj = requests.post(self.service_url_prefix+self.token+'/sendMessage',
+                               data=api_params)
 
         json_resp = req_obj.json()
         #print(json.dumps(json_resp, indent=4))
