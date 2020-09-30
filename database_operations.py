@@ -133,6 +133,15 @@ def deleteNewSender(sender_id):
     cur.execute(delete_new_sender_script, {"sender_id":sender_id})
     con.commit(); cur.close(); con.close()
 
+def lastTenTransactions(sender_id):
+    con = pg2.connect(database='spndr', user='postgres', password='password')
+    cur = con.cursor()
+    get_last_ten_transactions_script = open(os.getcwd()+'//sql_scripts//get_last_ten_transactions.sql').read()
+    cur.execute(get_last_ten_transactions_script, {"sender_id":sender_id})
+    spending_data = cur.fetchmany(10)
+    return spending_data
+    con.commit(); cur.close(); con.close()
+
     
 
 

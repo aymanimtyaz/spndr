@@ -18,6 +18,8 @@
     3. process_unreg_sender() - This function is called when database_operations.credCheck() returns False for
                                 a particular sender_id, which means that the sender isn't registered with the 
                                 service.
+
+    4. vowel_check() - This function returns True if a word begins with a vowel, else it returns False.
     
                            
     TRANSACTION STATES
@@ -78,6 +80,22 @@ def return_message(message, sender_id, chat_id):
             db.createNewTransaction(sender_id)
             return r.standard_reply(transaction_state)
 
+        if message.lower() == 'show':
+            spending_data = db.lastTenTransactions(sender_id)
+            if len(spending_data) == 0:
+                return r.special_reply(state = 4)
+            ac.sendMsg(chat_id, r.special_reply(state = 3))
+            ret_str = ''; i=1
+            for row in spending_data:
+                article = 'An' if vowel_check(row[0].lower()) else 'A'
+                if row[0].lower().endswith('s'):
+                    article = '' 
+                ret_str+=str(i)+'. {} {} for {} dollars from {} on {}\n\n'.format(
+                article, row[0], row[1], row[2], row[3])
+                i+=1
+            return ret_str
+            
+
     elif transaction_state in range(0, 4):
 
         if transaction_state == 1:
@@ -89,7 +107,6 @@ def return_message(message, sender_id, chat_id):
                 return r.wrong_input_reply(input_error_code = 2)
 
         db.updateTransaction(sender_id, message, transaction_state)
-
         return r.standard_reply(transaction_state)
     
     elif transaction_state == 5:
@@ -106,6 +123,7 @@ def process_command(message, transaction_state, sender_id):
     if transaction_state is None:
         if message.lower() == '!help':
             return r.command_reply(command = 1)
+        
     
     elif transaction_state in range(0, 4):
         if message.lower() == '!help':
@@ -129,6 +147,20 @@ def process_unreg_sender(message, sender_id, transaction_state):
                 return r.unregistered_sender_reply(state = 2)
             return r.unregistered_sender_reply(state = 3)
         return r.wrong_input_reply(input_error_code = 4)
+
+def vowel_check(item):
+    if item.startswith('a'):
+        return True
+    elif item.startswith('e'):
+        return True
+    elif item.startswith('i'):
+        return True
+    elif item.startswith('o'):
+        return True
+    elif item.startswith('u'):
+        return True
+    return False
+
 
 
 

@@ -1,5 +1,6 @@
 LIST OF AVAILABLE COMMANDS:
 
 new - starts a new transaction.
+show - see your last 10 purchases.
 !help - Brings up this dialogue.      
 

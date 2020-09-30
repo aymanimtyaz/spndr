@@ -51,6 +51,10 @@ def special_reply(state):
         return open(rep_dir+'transaction_aborted.txt').read()
     if state == 2:
         return open(rep_dir+'transaction_not_aborted.txt').read()
+    if state == 3:
+        return open(rep_dir+'show_last_10_transactions.txt').read()
+    if state == 4:
+        return open(rep_dir+'no_spending_data_yet.txt').read()
 
 def command_reply(command):
     rep_dir = os.getcwd()+'//replies//command_reply//'
@@ -60,6 +64,7 @@ def command_reply(command):
         return open(rep_dir+'!help_ongoing_transaction.txt').read()
     if command == 3:
         return open(rep_dir+'!abort_surety_check.txt').read()
+
 
 def unregistered_sender_reply(state):
     rep_dir = os.getcwd()+'//replies//unregistered_senders//'
