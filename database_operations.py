@@ -17,7 +17,13 @@
     4. commitTransaction() - Once a transaction has been completed. The transaction information is taken from the 
                              current_transaction database and committed to the transactions database.
 
-    5. abortTransaction() - Aborts an ongoing transaction when the user gives the !abort command
+    5. abortTransaction() - Aborts an ongoing transaction when the user gives the !abort command.
+
+    6. checkCreds() - This function checks whether a particular sender is registered with the service or not.
+
+    7. createAccount() - This function registers a sender if they agree to join spndr.
+
+    8. deleteNewSender() - This function removes an unregistered sender if they don't want to sign up for spndr.
 '''
 
 import psycopg2 as pg2 

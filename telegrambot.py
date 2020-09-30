@@ -1,6 +1,12 @@
 ''' This is a simple wrapper class that implements a low level abstraction on the calling of the 
-    telegram API. Please go to https://core.telegram.org/bots/api to look at the API's documentation 
-    and to gain a better understanding of how this wrapper works.
+    telegram API. 
+    
+    This class has been configured by default to receive the oldest received message using Telegram's
+    bot API. It keeps a connection on for a maximum of 100 seconds (long polling), if it doesn't
+    receive an update, it returns None to the calling program. 
+
+    Please go to https://core.telegram.org/bots/api to look at the API's documentation and to gain a 
+    better understanding of how this wrapper works.
 
     FUNCTIONS IN THIS MODULE
 
