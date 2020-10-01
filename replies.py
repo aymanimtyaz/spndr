@@ -55,6 +55,8 @@ def special_reply(state):
         return open(rep_dir+'show_last_10_transactions.txt').read()
     if state == 4:
         return open(rep_dir+'no_spending_data_yet.txt').read()
+    if state == 5:
+        return open(rep_dir+'last_ten_transactions.txt').read()
 
 def command_reply(command):
     rep_dir = os.getcwd()+'//replies//command_reply//'

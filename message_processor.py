@@ -90,8 +90,8 @@ def return_message(message, sender_id, chat_id):
                 article = 'An' if vowel_check(row[0].lower()) else 'A'
                 if row[0].lower().endswith('s'):
                     article = '' 
-                ret_str+=str(i)+'. {} {} for {} dollars from {} on {}\n\n'.format(
-                article, row[0], row[1], row[2], row[3])
+                ret_str+=str(i)+str(r.special_reply(state = 5)).format(
+                article, row[0], row[1], row[2], row[3])+'\n\n'
                 i+=1
             return ret_str
             

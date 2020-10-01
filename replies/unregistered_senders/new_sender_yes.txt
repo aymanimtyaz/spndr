@@ -11,6 +11,9 @@ If you want to abort an ongoing
 transaction, send '!abort' and we 
 will stop the transaction.
 
+You can look at your recent purchases
+with 'show'.
+
 If you ever get stuck, send '!help'
 and we will be there to guide you.
 
