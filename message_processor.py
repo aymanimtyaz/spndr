@@ -94,6 +94,10 @@ def return_message(message, sender_id, chat_id):
                 article, row[0], row[1], row[2], row[3])+'\n\n'
                 i+=1
             return ret_str
+
+        if message.lower() == 'delete':
+            db.deleteUser(sender_id, state = 1)
+            return r.special_reply(state = 6)
             
 
     elif transaction_state in range(0, 4):
@@ -118,6 +122,15 @@ def return_message(message, sender_id, chat_id):
             return r.standard_reply(transaction_state=(db.getTransactionState(sender_id)-1))        
         else:
             return r.wrong_input_reply(input_error_code = 3)
+
+    elif transaction_state == 6:
+        if message == 'y' or message == 'n':
+            if message == 'y':
+                db.deleteUser(sender_id, state = 2)
+                return r.special_reply(state = 7)
+            db.deleteUser(sender_id, state = 3)
+            return r.special_reply(state = 8)
+        return r.wrong_input_reply(input_error_code = 5)
 
 def process_command(message, transaction_state, sender_id):
     if transaction_state is None:

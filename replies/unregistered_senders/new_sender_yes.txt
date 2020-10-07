@@ -17,5 +17,8 @@ with 'show'.
 If you ever get stuck, send '!help'
 and we will be there to guide you.
 
+If you want to delete your account,
+send 'delete'.
+
 happy spndng!
 

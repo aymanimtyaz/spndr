@@ -44,6 +44,8 @@ def wrong_input_reply(input_error_code):
         return open(rep_dir+'abort_state_reply_y_or_n.txt').read()
     if input_error_code == 4:
         return open(rep_dir+'unreg_sender_wrong_mssg.txt').read()
+    if input_error_code == 5:
+        return open(rep_dir+'delete_user_wrong_reply.txt').read()
 
 def special_reply(state):
     rep_dir = os.getcwd()+'//replies//special_replies//'
@@ -57,6 +59,12 @@ def special_reply(state):
         return open(rep_dir+'no_spending_data_yet.txt').read()
     if state == 5:
         return open(rep_dir+'last_ten_transactions.txt').read()
+    if state == 6:
+        return open(rep_dir+'confirm_user_deletion.txt').read()
+    if state == 7:
+        return open(rep_dir+'user_deleted.txt').read()
+    if state == 8:
+        return open(rep_dir+'user_deletion_aborted.txt').read()
 
 def command_reply(command):
     rep_dir = os.getcwd()+'//replies//command_reply//'

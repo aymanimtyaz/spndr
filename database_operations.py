@@ -142,6 +142,23 @@ def lastTenTransactions(sender_id):
     return spending_data
     con.commit(); cur.close(); con.close()
 
+def deleteUser(sender_id, state):
+    con = pg2.connect(database='spndr', user='postgres', password='password')
+    cur = con.cursor()
+    if state == 1:
+        init_user_deletion_script = open(os.getcwd()+'//sql_scripts//init_user_deletion.sql').read()
+        cur.execute(init_user_deletion_script, {"sender_id":sender_id})
+    elif state == 2:
+        delete_user_script = open(os.getcwd()+'//sql_scripts//delete_user.sql').read()
+        cur.execute(delete_user_script, {"sender_id":sender_id})
+    else:
+        abort_user_deletion_script = open(os.getcwd()+'//sql_scripts//abort_user_deletion.sql').read()
+        cur.execute(abort_user_deletion_script, {"sender_id":sender_id})
+
+
+    con.commit(); cur.close(); con.close()
+
+
     
 
 
