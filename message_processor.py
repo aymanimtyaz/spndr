@@ -25,7 +25,7 @@
     TRANSACTION STATES
     Transaction states are a property of each message and sender pair. They describe the context in which the sender has 
     sent the message. The transaction state is needed for the bot to give the correct contextual reply to the sender. It
-    lets the bot know the context in which the message was sent.
+    lets the bot know the context in which a user's message was sent.
 
     Transaction states are only needed when a line of conversation between the bot and the sender spans more than one
     message and reply. If one message and reply is enough to start and end the conversation between the bot and the sender,
@@ -55,8 +55,10 @@
      5 - This is the state after and !abort command has been entered by the sender when they have an ongoing transaction.
          When this stage is entered, a confirmatory check is made to the sender to confirm the abortion of the current
          transaction.
-                          
 
+     6 - This is the states after a user has initiated account deletion. At this stage, a confirmatory check is sent to 
+         the user to confirm if they really want to delete their account.
+                          
 '''
 import os
 import database_operations as db
