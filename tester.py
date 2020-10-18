@@ -1,8 +1,6 @@
 import api_caller as ac 
 import message_processor as mp
 
-
-
 while True:
     sid, msg, cid, uid = ac.getMsg()
     print('MESSAGE SENT:', msg)
