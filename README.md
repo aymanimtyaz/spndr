@@ -15,17 +15,16 @@ The program logic of the bot is fairly simple.
 
 3. Sends the reply selected in step 2b. above to the user.
 
- And the process repeats.
+And the process repeats.
  
- ## File functionality
- This is a brief description of each file in its current state:
- 
- ### 1. tester.py
- This is the starter file for the program. **The app gets initialized and starts executing when this file is run**. The steps laid out above are 
- executed in this file.
+## File functionality
+This is a brief description of each file in its current state:
+
+### 1. tester.py
+This is the starter file for the program. **The app gets initialized and starts executing when this file is run**. The steps laid out above are executed in this file.
 
 ### 2. message_processor.py
-This is the file that **handle's the processing of the end users' messages to the bot**. It is the working brain of the application.
+This is the file that **handles the processing of the end users' messages to the bot**. It is the working brain of the application.
 End users' messages are processed followed by carrying out any necessary database operations, and then the message to be sent back to the end users is generated.
 
 ### 3. database_operations.py
@@ -45,7 +44,7 @@ This file calls the functions in **telegrambot.py**, which is a wrapper module t
 This is a wrapper module that implements the Telegram bot API functions **getUpdates** and **sendMessage**
 
 ### 7. replies.py
-This file open's the bot's reply templates stored in the _replies_ directory and return's them to message_processor.py when called upon.
+This file opens the bot's reply templates stored in the _replies_ directory and returns them to message_processor.py when called upon.
 
 
 ## Control Flow Diagram
