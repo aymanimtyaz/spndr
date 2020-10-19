@@ -10,8 +10,8 @@ The program logic of the bot is fairly simple.
 1. The bot receives an update via the Telegram API of any messages sent to it. 
 
 2. Once it has received a message, it processes the message which consists of :
-a. Doing any necessary back-end work, mostly database transactions.
-b. Selecting the reply to send to the end user from a folder of reply 	  templates.
+    a. Doing any necessary back-end work, mostly database transactions.
+    b. Selecting the reply to send to the end user from a folder of reply templates.
 
 3. Sends the reply selected in step 2b. above to the user.
 
@@ -57,7 +57,7 @@ This file open's the bot's reply templates stored in the _replies_ directory and
 1. Make sure you have Python 3.7 installed with the psycopg2 package
 2. Make sure you have PostgreSQL installed 
 3. download this repo
-4. create a file named BOT_TOKEN.txt in the repo and paste your telegram API key in it.
+4. create a file named bot_token.txt in the repo and paste your telegram API key in it.
 Click this link to see how you can get an API key: https://core.telegram.org/#bot-api
 5. Open db_interface.py and change the class variables username and password in the pool_init class to the username and password of your PostgreSQL server.
 6. run tester.py and send the bot a message. 
