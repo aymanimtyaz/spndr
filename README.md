@@ -53,14 +53,15 @@ This file opens the bot's reply templates stored in the _replies_ directory and 
 ![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
 
 # Running Instructions
-1. Make sure you have Python 3.7 installed with the psycopg2 package
-2. Make sure you have PostgreSQL installed 
-3. download this repo
-4. create a file named bot_token.txt in the repo and paste your telegram API key in it.
+1. Make sure you have Python 3.7 installed with the psycopg2 package.
+2. Make sure you have PostgreSQL installed.
+3. Download this repo.
+4. Create a file named bot_token.txt in the repo and paste your telegram API key in it.
 Click this link to see how you can get an API key: https://core.telegram.org/#bot-api
 5. Open db_interface.py and change the class variables username and password in the pool_init class to the username and password of your PostgreSQL server.
-6. run tester.py and send the bot a message. 
-7. That's it! You're all done!
+6. Run reset_db.py to initialize the database.
+7. Run tester.py and send the bot a message. 
+8. That's it! You're all done!
 
 
 #### If you have any questions about this project, you can email me at aymanimtyaz@gmail.com :)
