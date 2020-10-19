@@ -47,7 +47,13 @@ This is a wrapper module that implements the Telegram bot API functions **getUpd
 ### 7. replies.py
 This file open's the bot's reply templates stored in the _replies_ directory and return's them to message_processor.py when called upon.
 
-## Running Instructions
+
+## Control Flow Diagram
+![CONTROL FLOW DIAGRAM](https://i.ibb.co/30MxhN0/DATA-FLOW-DIAGRAM.png)
+## PostgreSQL Database Schema
+![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
+
+# Running Instructions
 1. Make sure you have Python 3.7 installed with the psycopg2 package
 2. Make sure you have PostgreSQL installed 
 3. download this repo
