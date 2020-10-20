@@ -1,8 +1,11 @@
 import psycopg2 as pg2
 import os
 
+user = 'postgres'
+password = 'password'
+
 """ CONNECTING TO POSTGRESQL DATABASE """
-conn = pg2.connect(database='spndr', user='postgres', password='password')
+conn = pg2.connect(database='spndr', user=user, password=password)
 cur = conn.cursor()
 
 

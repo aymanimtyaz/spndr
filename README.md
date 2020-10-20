@@ -56,15 +56,17 @@ This file resets the PostgreSQL database
 ![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
 
 # Running Instructions
-1. Make sure you have Python 3.7 installed with the psycopg2 and requests package.
+1. Make sure you have Python 3.7 installed with the **_psycopg2_** and **_requests_** package.
 2. Make sure you have PostgreSQL installed.
 3. Download this repo.
 4. Create a file named bot_token.txt in the repo and paste your telegram API key in it.
+5. Create a PostgreSQL database and name it 'spndr'.
 Click this link to see how you can get an API key: https://core.telegram.org/#bot-api
-5. Open db_interface.py and change the class variables username and password in the pool_init class to the username and password of your PostgreSQL server.
-6. Run reset_db.py to initialize the database.
-7. Run tester.py and send the bot a message. 
-8. That's it! You're all done!
+6. Open db_interface.py and change the class variables username and password at lines 7 and 8 respectively to the username and password of your PostgreSQL server.
+7. Open reset_db.py and do the same as you did in the previous step at lines 4 and 5.
+8. Run reset_db.py to initialize the database.
+9. Run tester.py and send the bot a message. 
+10. That's it! You're all done!
 
 
 #### If you have any questions about this project, you can email me at aymanimtyaz@gmail.com :)
