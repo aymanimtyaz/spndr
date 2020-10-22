@@ -109,6 +109,7 @@ def return_message(message, sender_id, chat_id):
                 return r.wrong_input_reply(input_error_code = 1)
             if float(message) <= 0:
                 return r.wrong_input_reply(input_error_code = 2)
+            message = float(message)
 
         db.updateTransaction(sender_id, message, transaction_state)
         return r.standard_reply(transaction_state)
