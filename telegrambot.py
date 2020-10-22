@@ -18,13 +18,14 @@
 '''
 
 import requests, json, os
+from config import bot_token
 
 class communicate:
 
     service_url_prefix = 'https://api.telegram.org/bot'
 
     def __init__(self, offset=0, limit=100, timeout=100, allowed_updates=[], init=0):
-        self.token = open(os.getcwd()+'//bot_token.txt').read()
+        self.token = bot_token
         self.offset = offset
         self.limit = limit
         self.timeout = timeout
@@ -33,21 +34,17 @@ class communicate:
         self.init = init
 
     def receive(self):
-        #print('in receive')
         api_params = {"offset":self.offset, "limit":self.limit,
                       "timeout":self.timeout, "allowed_updates":self.allowed_updates}
-        #print("waiting for input")
         req_obj = requests.post(self.service_url_prefix+self.token+'/getUpdates', 
                                data=api_params)
         self.data = req_obj.json()
-        #print(json.dumps(self.data, indent=4))
         if len(self.data['result'])==0:
             return None
         if self.init == 0:
             self.offset = self.data['result'][-1]['update_id']
             self.init+=1
         self.offset+=1
-        #print('returning to getMsg')
         return self.data
 
     def send(self, chat_id, text):
@@ -57,22 +54,3 @@ class communicate:
                                data=api_params)
 
         json_resp = req_obj.json()
-        #print(json.dumps(json_resp, indent=4))
-
-
-    
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-

@@ -1,17 +1,18 @@
 import psycopg2 as pg2
 from psycopg2 import pool as pl
+from config import user, password
 
 class pool_init():
     
     data = 'spndr'
-    username = 'postgres'
-    password = 'password'
+    usr = user
+    pw = password
     min_con = '1'
     max_con = '1'
 
     def __init__(self, function):
         self.connection_pool = pl.SimpleConnectionPool(self.min_con, self.max_con, database = self.data, 
-                                                             user = self.username, password = self.password)
+                                                             user = self.usr, password = self.pw)
         self.function = function
 
     def __call__(self, *args, **kwargs):
