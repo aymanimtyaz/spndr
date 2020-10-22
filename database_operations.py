@@ -34,9 +34,8 @@ from db_interface import cnnct, dscnnct
 import os
 
 def getTransactionState(sender_id):
-    get_transaction_state_script = open(os.getcwd()+'//sql_scripts//get_transaction_state.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(get_transaction_state_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//get_transaction_state.sql').read(), {"sender_id":sender_id})
     query_result = curs.fetchone()
     dscnnct(pool, con, curs)
     if query_result is None:
@@ -44,11 +43,9 @@ def getTransactionState(sender_id):
     transaction_state = query_result[0]
     return transaction_state
 
-
 def createNewTransaction(sender_id):
-    create_new_transaction_script = open(os.getcwd()+'//sql_scripts//create_new_transaction.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(create_new_transaction_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//create_new_transaction.sql').read(), {"sender_id":sender_id})
     dscnnct(pool, con, curs)
 
 def updateTransaction(sender_id, message, transaction_state):
@@ -73,36 +70,26 @@ def updateTransaction(sender_id, message, transaction_state):
         commitTransaction(sender_id)
     
 def commitTransaction(sender_id):
-    commit_transaction_script = open(os.getcwd()+'//sql_scripts//commit_transaction.sql').read()
-    delete_completed_transaction_script = open(os.getcwd()+'//sql_scripts//delete_completed_transaction.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(commit_transaction_script, {"sender_id":sender_id})
-    curs.execute(delete_completed_transaction_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//commit_transaction.sql').read(), {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//delete_completed_transaction.sql').read(), {"sender_id":sender_id})
     dscnnct(pool, con, curs)
 
 def abortTransaction(message, sender_id, transaction_state):
     pool, con, curs = cnnct()
-
     if message.lower() == '!abort':
-        init_abort_transaction_script = open(os.getcwd()+'//sql_scripts//init_abort_transaction.sql').read()
-        curs.execute(init_abort_transaction_script, 
+        curs.execute(open(os.getcwd()+'//sql_scripts//init_abort_transaction.sql').read(), 
                     {"previous_transaction_state":transaction_state, "sender_id":sender_id})
-    
     elif transaction_state == 5:
         if message == 'y':
-            confirm_abort_transaction_script = open(os.getcwd()+'//sql_scripts//confirm_abort_transaction.sql').read()
-            curs.execute(confirm_abort_transaction_script, {"sender_id":sender_id})
-
+            curs.execute(open(os.getcwd()+'//sql_scripts//confirm_abort_transaction.sql').read(), {"sender_id":sender_id})
         elif message == 'n':
-            stop_abort_transaction_script = open(os.getcwd()+'//sql_scripts//stop_abort_transaction.sql').read()
-            curs.execute(stop_abort_transaction_script, {"sender_id":sender_id})
-
+            curs.execute(open(os.getcwd()+'//sql_scripts//stop_abort_transaction.sql').read(), {"sender_id":sender_id})
     dscnnct(pool, con, curs)
 
 def checkCreds(sender_id):
-    check_creds_script = open(os.getcwd()+'//sql_scripts//check_creds.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(check_creds_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//check_creds.sql').read(), {"sender_id":sender_id})
     creds_exist = curs.fetchone()[0]
     dscnnct(pool, con, curs)
     if creds_exist:
@@ -110,36 +97,27 @@ def checkCreds(sender_id):
     return False
 
 def createAccount(sender_id):
-    create_account_script = open(os.getcwd()+'//sql_scripts//create_account.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(create_account_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//create_account.sql').read(), {"sender_id":sender_id})
     dscnnct(pool, con, curs)
     
 def deleteNewSender(sender_id):
-    delete_new_sender_script = open(os.getcwd()+'//sql_scripts//delete_new_sender.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(delete_new_sender_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//delete_new_sender.sql').read(), {"sender_id":sender_id})
     dscnnct(pool, con, curs)
 
 def lastTenTransactions(sender_id):
-    get_last_ten_transactions_script = open(os.getcwd()+'//sql_scripts//get_last_ten_transactions.sql').read()
     pool, con, curs = cnnct()
-    curs.execute(get_last_ten_transactions_script, {"sender_id":sender_id})
+    curs.execute(open(os.getcwd()+'//sql_scripts//get_last_ten_transactions.sql').read(), {"sender_id":sender_id})
     spending_data = curs.fetchmany(10)
     dscnnct(pool, con, curs)
     return spending_data
     
-
 def deleteUser(sender_id, state):
+    deletion_dict = {1:open(os.getcwd()+'//sql_scripts//init_user_deletion.sql').read(),
+                     2:open(os.getcwd()+'//sql_scripts//delete_user.sql').read(),
+                     3:open(os.getcwd()+'//sql_scripts//abort_user_deletion.sql').read()}
+
     pool, con, curs = cnnct()
-    if state == 1:
-        init_user_deletion_script = open(os.getcwd()+'//sql_scripts//init_user_deletion.sql').read()
-        curs.execute(init_user_deletion_script, {"sender_id":sender_id})
-    elif state == 2:
-        delete_user_script = open(os.getcwd()+'//sql_scripts//delete_user.sql').read()
-        curs.execute(delete_user_script, {"sender_id":sender_id})
-    else:
-        abort_user_deletion_script = open(os.getcwd()+'//sql_scripts//abort_user_deletion.sql').read()
-        curs.execute(abort_user_deletion_script, {"sender_id":sender_id})
-    
+    curs.execute(deletion_dict[state], {"sender_id":sender_id})
     dscnnct(pool, con, curs)
