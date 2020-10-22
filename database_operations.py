@@ -25,7 +25,7 @@
 
     8. deleteNewSender() - This function removes an unregistered sender if they don't want to sign up for spndr.
 
-    9. lastTenTransactions() - This function retrieves upto 10 of the latest transactions made my a specific user.
+    9. lastTenTransactions() - This function retrieves upto 10 of the latest transactions made by a specific user.
 
     10. deleteUser() - This function removes a user from the database, essentially deleting the user's account.
 '''
