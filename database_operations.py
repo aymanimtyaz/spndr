@@ -51,30 +51,27 @@ def createNewTransaction(sender_id):
     curs.execute(create_new_transaction_script, {"sender_id":sender_id})
     dscnnct(pool, con, curs)
 
-def updateTransaction(sender_id, message, previous_transaction_state):
-    pool, con, curs = cnnct()
+def updateTransaction(sender_id, message, transaction_state):
+    updation_dict = {0:[open(os.getcwd()+'//sql_scripts//add_product_service.sql').read(), 
+                        {"prod_serv":message, "sender_id":sender_id}],
 
-    if previous_transaction_state == 0:
-        add_product_service_script = open(os.getcwd()+'//sql_scripts//add_product_service.sql').read()
-        curs.execute(add_product_service_script, {"prod_serv":message, "sender_id":sender_id})
-        
-    elif previous_transaction_state == 1:
-        add_price_script = open(os.getcwd()+'//sql_scripts//add_price.sql').read()
-        curs.execute(add_price_script, {"price":float(message), "sender_id":sender_id})
+                     1:[open(os.getcwd()+'//sql_scripts//add_price.sql').read(),
+                        {"price":message, "sender_id":sender_id}],
 
-    elif previous_transaction_state == 2:
-        add_vendor_script = open(os.getcwd()+'//sql_scripts//add_vendor.sql').read()
-        curs.execute(add_vendor_script, {"vendor":message, "sender_id":sender_id})
+                     2:[open(os.getcwd()+'//sql_scripts//add_vendor.sql').read(),
+                        {"vendor":message, "sender_id":sender_id}],
 
-    elif previous_transaction_state == 3:
-        add_category_script = open(os.getcwd()+'//sql_scripts//add_category.sql').read()
-        curs.execute(add_category_script, {"category":message, "sender_id":sender_id})
+                     3:[open(os.getcwd()+'//sql_scripts//add_category.sql').read(),
+                        {"category":message, "sender_id":sender_id}]}
     
+    pool, con, curs = cnnct()
+    curs.execute(updation_dict[transaction_state][0], updation_dict[transaction_state][1])
     dscnnct(pool, con, curs)
+    
     transaction_state = getTransactionState(sender_id)
     if transaction_state == 4:
         commitTransaction(sender_id)
-
+    
 def commitTransaction(sender_id):
     commit_transaction_script = open(os.getcwd()+'//sql_scripts//commit_transaction.sql').read()
     delete_completed_transaction_script = open(os.getcwd()+'//sql_scripts//delete_completed_transaction.sql').read()
