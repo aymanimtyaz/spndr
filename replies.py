@@ -23,67 +23,48 @@ import os
 
 def standard_reply(transaction_state):
     rep_dir = os.getcwd()+'//replies//standard_transaction//'
-    if transaction_state is None or transaction_state == -1:
-        return open(rep_dir+'transaction_state_zero.txt').read()
-    if transaction_state == 0:
-        return open(rep_dir+'transaction_state_one.txt').read()
-    if transaction_state == 1:   
-        return open(rep_dir+'transaction_state_two.txt').read()
-    if transaction_state == 2:
-        return open(rep_dir+'transaction_state_three.txt').read()
-    if transaction_state == 3:
-        return open(rep_dir+'transaction_state_four.txt').read()
+    return_dict = {None:open(rep_dir+'transaction_state_zero.txt').read(),
+                   -1:open(rep_dir+'transaction_state_zero.txt').read(),
+                   0:open(rep_dir+'transaction_state_one.txt').read(),
+                   1:open(rep_dir+'transaction_state_two.txt').read(),
+                   2:open(rep_dir+'transaction_state_three.txt').read(),
+                   3:open(rep_dir+'transaction_state_four.txt').read()}
+    return return_dict[transaction_state]
 
 def wrong_input_reply(input_error_code):
     rep_dir = os.getcwd()+'//replies//wrong_input_replies//'
-    if input_error_code == 1:
-        return open(rep_dir+'price_should_be_numeric.txt').read()
-    if input_error_code == 2:
-        return open(rep_dir+'price_zero_or_negative.txt').read()
-    if input_error_code == 3:
-        return open(rep_dir+'abort_state_reply_y_or_n.txt').read()
-    if input_error_code == 4:
-        return open(rep_dir+'unreg_sender_wrong_mssg.txt').read()
-    if input_error_code == 5:
-        return open(rep_dir+'delete_user_wrong_reply.txt').read()
+    return_dict = {1:open(rep_dir+'price_should_be_numeric.txt').read(),
+                   2:open(rep_dir+'price_zero_or_negative.txt').read(),
+                   3:open(rep_dir+'abort_state_reply_y_or_n.txt').read(),
+                   4:open(rep_dir+'unreg_sender_wrong_mssg.txt').read(),
+                   5:open(rep_dir+'delete_user_wrong_reply.txt').read()}
+    return return_dict[input_error_code]
 
 def special_reply(state):
     rep_dir = os.getcwd()+'//replies//special_replies//'
-    if state == 1:
-        return open(rep_dir+'transaction_aborted.txt').read()
-    if state == 2:
-        return open(rep_dir+'transaction_not_aborted.txt').read()
-    if state == 3:
-        return open(rep_dir+'show_last_10_transactions.txt').read()
-    if state == 4:
-        return open(rep_dir+'no_spending_data_yet.txt').read()
-    if state == 5:
-        return open(rep_dir+'last_ten_transactions.txt').read()
-    if state == 6:
-        return open(rep_dir+'confirm_user_deletion.txt').read()
-    if state == 7:
-        return open(rep_dir+'user_deleted.txt').read()
-    if state == 8:
-        return open(rep_dir+'user_deletion_aborted.txt').read()
+    return_dict = {1:open(rep_dir+'transaction_aborted.txt').read(),
+                   2:open(rep_dir+'transaction_not_aborted.txt').read(),
+                   3:open(rep_dir+'show_last_10_transactions.txt').read(),
+                   4:open(rep_dir+'no_spending_data_yet.txt').read(),
+                   5:open(rep_dir+'last_ten_transactions.txt').read(),
+                   6:open(rep_dir+'confirm_user_deletion.txt').read(),
+                   7:open(rep_dir+'user_deleted.txt').read(),
+                   8:open(rep_dir+'user_deletion_aborted.txt').read()}
+    return return_dict[state]
 
 def command_reply(command):
     rep_dir = os.getcwd()+'//replies//command_reply//'
-    if command == 1:
-        return open(rep_dir+'!help_no_transaction.txt').read()
-    if command == 2:
-        return open(rep_dir+'!help_ongoing_transaction.txt').read()
-    if command == 3:
-        return open(rep_dir+'!abort_surety_check.txt').read()
-
+    return_dict = {1:open(rep_dir+'!help_no_transaction.txt').read(),
+                   2:open(rep_dir+'!help_ongoing_transaction.txt').read(),
+                   3:open(rep_dir+'!abort_surety_check.txt').read()}
+    return return_dict[command]
 
 def unregistered_sender_reply(state):
     rep_dir = os.getcwd()+'//replies//unregistered_senders//'
-    if state == 1:
-        return open(rep_dir+'brand_new_sender.txt').read()
-    if state == 2:
-        return open(rep_dir+'new_sender_yes.txt').read()
-    if state == 3:
-        return open(rep_dir+'new_sender_no.txt').read()
+    return_dict = {1:open(rep_dir+'brand_new_sender.txt').read(),
+                   2:open(rep_dir+'new_sender_yes.txt').read(),
+                   3:open(rep_dir+'new_sender_no.txt').read()}
+    return return_dict[state]
     
 
     
