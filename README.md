@@ -20,7 +20,7 @@ And the process repeats.
 ## File functionality
 This is a brief description of each file in its current state:
 
-### 1. tester.py
+### 1. main.py
 This is the starter file for the program. **The app gets initialized and starts executing when this file is run**. The steps laid out above are executed in this file.
 
 ### 2. message_processor.py
@@ -65,7 +65,7 @@ This file resets the PostgreSQL database
     c. __*password*__: A string containing the password of your PostgreSQL server.
 5. Create a PostgreSQL database and name it 'spndr'.
 6. Run reset_db.py to initialize the database.
-7. Run tester.py and send the bot a message. 
+7. Run main.py and send the bot a message. 
 8. That's it! You're all done!
 
 
