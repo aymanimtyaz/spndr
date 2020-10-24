@@ -51,7 +51,7 @@ This file resets the PostgreSQL database
 
 
 ## Control Flow Diagram
-![CONTROL FLOW DIAGRAM](https://i.ibb.co/30MxhN0/DATA-FLOW-DIAGRAM.png)
+![CONTROL FLOW DIAGRAM](https://i.ibb.co/RhkfhhX/DATA-FLOW-DIAGRAM-1.png)
 ## PostgreSQL Database Schema
 ![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
 
