@@ -19,51 +19,46 @@
                                      sends a message to the bot.
 '''
 
-import os
+from replies_loader import replies_dicts as rd
 
 def standard_reply(transaction_state):
-    rep_dir = os.getcwd()+'//replies//standard_transaction//'
-    return_dict = {None:open(rep_dir+'transaction_state_zero.txt').read(),
-                   -1:open(rep_dir+'transaction_state_zero.txt').read(),
-                   0:open(rep_dir+'transaction_state_one.txt').read(),
-                   1:open(rep_dir+'transaction_state_two.txt').read(),
-                   2:open(rep_dir+'transaction_state_three.txt').read(),
-                   3:open(rep_dir+'transaction_state_four.txt').read()}
+    return_dict = {None:rd.standard_transaction['transaction_state_zero'],
+                   -1:rd.standard_transaction['transaction_state_zero'],
+                   0:rd.standard_transaction['transaction_state_one'],
+                   1:rd.standard_transaction['transaction_state_two'],
+                   2:rd.standard_transaction['transaction_state_three'],
+                   3:rd.standard_transaction['transaction_state_four']}
     return return_dict[transaction_state]
 
 def wrong_input_reply(input_error_code):
-    rep_dir = os.getcwd()+'//replies//wrong_input_replies//'
-    return_dict = {1:open(rep_dir+'price_should_be_numeric.txt').read(),
-                   2:open(rep_dir+'price_zero_or_negative.txt').read(),
-                   3:open(rep_dir+'abort_state_reply_y_or_n.txt').read(),
-                   4:open(rep_dir+'unreg_sender_wrong_mssg.txt').read(),
-                   5:open(rep_dir+'delete_user_wrong_reply.txt').read()}
+    return_dict = {1:rd.wrong_input_replies['price_should_be_numeric'],
+                   2:rd.wrong_input_replies['price_zero_or_negative'],
+                   3:rd.wrong_input_replies['abort_state_reply_y_or_n'],
+                   4:rd.wrong_input_replies['unreg_sender_wrong_mssg'],
+                   5:rd.wrong_input_replies['delete_user_wrong_reply']}
     return return_dict[input_error_code]
 
 def special_reply(state):
-    rep_dir = os.getcwd()+'//replies//special_replies//'
-    return_dict = {1:open(rep_dir+'transaction_aborted.txt').read(),
-                   2:open(rep_dir+'transaction_not_aborted.txt').read(),
-                   3:open(rep_dir+'show_last_10_transactions.txt').read(),
-                   4:open(rep_dir+'no_spending_data_yet.txt').read(),
-                   5:open(rep_dir+'last_ten_transactions.txt').read(),
-                   6:open(rep_dir+'confirm_user_deletion.txt').read(),
-                   7:open(rep_dir+'user_deleted.txt').read(),
-                   8:open(rep_dir+'user_deletion_aborted.txt').read()}
+    return_dict = {1:rd.special_replies['transaction_aborted'],
+                   2:rd.special_replies['transaction_not_aborted'],
+                   3:rd.special_replies['show_last_10_transactions'],
+                   4:rd.special_replies['no_spending_data_yet'],
+                   5:rd.special_replies['last_ten_transactions'],
+                   6:rd.special_replies['confirm_user_deletion'],
+                   7:rd.special_replies['user_deleted'],
+                   8:rd.special_replies['user_deletion_aborted']}
     return return_dict[state]
 
 def command_reply(command):
-    rep_dir = os.getcwd()+'//replies//command_reply//'
-    return_dict = {1:open(rep_dir+'!help_no_transaction.txt').read(),
-                   2:open(rep_dir+'!help_ongoing_transaction.txt').read(),
-                   3:open(rep_dir+'!abort_surety_check.txt').read()}
+    return_dict = {1:rd.command_replies['!help_no_transaction'],
+                   2:rd.command_replies['!help_ongoing_transaction'],
+                   3:rd.command_replies['!abort_surety_check']}
     return return_dict[command]
 
 def unregistered_sender_reply(state):
-    rep_dir = os.getcwd()+'//replies//unregistered_senders//'
-    return_dict = {1:open(rep_dir+'brand_new_sender.txt').read(),
-                   2:open(rep_dir+'new_sender_yes.txt').read(),
-                   3:open(rep_dir+'new_sender_no.txt').read()}
+    return_dict = {1:rd.unregistered_senders['brand_new_sender'],
+                   2:rd.unregistered_senders['new_sender_yes'],
+                   3:rd.unregistered_senders['new_sender_no']}
     return return_dict[state]
     
 
