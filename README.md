@@ -49,9 +49,14 @@ This file opens the bot's reply templates stored in the _replies_ directory and 
 ### 8. reset_db.py
 This file resets the PostgreSQL database 
 
+### 9. replies_loader.py
+This file **loads the bot's reply templates** that are stored in the **replies** directory and stores them in dictionaries that can be accessed when needed by importing.
+
+### 10. sql_scripts_loader.py
+This file **loads the sql scripts** that are stored in the **sql_scripts** directory and stores them in a dictionary that can be accessed when needed by importing.
 
 ## Control Flow Diagram
-![CONTROL FLOW DIAGRAM](https://i.ibb.co/RhkfhhX/DATA-FLOW-DIAGRAM-1.png)
+![CONTROL FLOW DIAGRAM](https://i.ibb.co/zQGnyq6/DATA-FLOW-DIAGRAM-2.png)
 ## PostgreSQL Database Schema
 ![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
 
