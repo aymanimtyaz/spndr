@@ -1,5 +1,18 @@
 # Welcome to spndr!
 
+## Running Instructions
+1. Make sure you have Python installed with the **_psycopg2_** and **_requests_** package.
+2. Make sure you have PostgreSQL installed.
+3. Clone this repo.  
+4. Create a config.py file in the repo and add the following variables to it:
+    a. __*bot_token*__: A string containing the Telegram API key for the bot. Click this link to see how you can get an API key: https://core.telegram.org/#bot-api
+    b. __*user*__: A string containing the username of your PostgreSQL server.
+    c. __*password*__: A string containing the password of your PostgreSQL server.
+5. Create a PostgreSQL database and name it 'spndr'.
+6. Run reset_db.py to initialize the database.
+7. Run main.py and send the bot a message. 
+8. That's it! You're all done!
+
 ## What is spndr?
 
 **spndr** is a spending tracker built in **Python**, using a **PostgreSQL** database in the backend and using **Telegram** as the frontend, via the **Telegram bot API**. spndr is a telegram bot that can help you record your spending details in a simple, step-by-step process.
@@ -59,19 +72,5 @@ This file **loads the sql scripts** that are stored in the **sql_scripts** direc
 ![CONTROL FLOW DIAGRAM](https://i.ibb.co/zQGnyq6/DATA-FLOW-DIAGRAM-2.png)
 ## PostgreSQL Database Schema
 ![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
-
-# Running Instructions
-1. Make sure you have Python installed with the **_psycopg2_** and **_requests_** package.
-2. Make sure you have PostgreSQL installed.
-3. Clone this repo.  
-4. Create a config.py file in the repo and add the following variables to it:
-    a. __*bot_token*__: A string containing the Telegram API key for the bot. Click this link to see how you can get an API key: https://core.telegram.org/#bot-api
-    b. __*user*__: A string containing the username of your PostgreSQL server.
-    c. __*password*__: A string containing the password of your PostgreSQL server.
-5. Create a PostgreSQL database and name it 'spndr'.
-6. Run reset_db.py to initialize the database.
-7. Run main.py and send the bot a message. 
-8. That's it! You're all done!
-
 
 #### If you have any questions about this project, you can email me at aymanimtyaz@gmail.com :)
