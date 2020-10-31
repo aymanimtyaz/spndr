@@ -13,12 +13,10 @@ def init_obj(fn):
 ''' FUNCTION TO RECEIVE THE LATEST UNREAD MESSAGE '''
 @init_obj
 def getMsg(*args):
-    #print(args[0])
     json_obj = None
     while json_obj is None:
         json_obj = args[0].receive()
 
-    open('last_message.json', 'w').write(json.dumps(json_obj, indent=4))
     sender_id = json_obj['result'][-1]['message']['from']['id']
     chat_id = json_obj['result'][-1]['message']['chat']['id']
     update_id = json_obj['result'][-1]['update_id']
