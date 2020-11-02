@@ -15,7 +15,7 @@
                            For more information on transaction_states, please scroll below to its corresponding
                            section.
     
-    3. process_unreg_sender() - This function is called when database_operations.credCheck() returns False for
+    3. process_unreg_sender() - This function is called when db_operations.credCheck() returns False for
                                 a particular sender_id, which means that the sender isn't registered with the 
                                 service.
     
@@ -54,13 +54,13 @@
          When this stage is entered, a confirmatory check is made to the sender to confirm the abortion of the current
          transaction.
 
-     6 - This is the states after a user has initiated account deletion. At this stage, a confirmatory check is sent to 
+     6 - This is the state after a user has initiated account deletion. At this stage, a confirmatory check is sent to 
          the user to confirm if they really want to delete their account.
                           
 '''
 import os
-import database_operations as db
-import api_caller as ac
+import db_operations as db
+import telegrambot_caller as ac
 import replies as r
 
 

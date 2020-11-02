@@ -9,7 +9,7 @@
     b. __*user*__: A string containing the username of your PostgreSQL server.
     c. __*password*__: A string containing the password of your PostgreSQL server.
 5. Create a PostgreSQL database and name it 'spndr'.
-6. Run reset_db.py to initialize the database.
+6. Run db_reset.py to initialize the database.
 7. Run main.py and send the bot a message. 
 8. That's it! You're all done!
 
@@ -36,36 +36,36 @@ This is a brief description of each file in its current state:
 ### 1. main.py
 This is the starter file for the program. **The app gets initialized and starts executing when this file is run**. The steps laid out above are executed in this file.
 
-### 2. message_processor.py
+### 2. app_engine.py
 This is the file that **handles the processing of the end users' messages to the bot**. It is the working brain of the application.
 End users' messages are processed followed by carrying out any necessary database operations, and then the message to be sent back to the end users is generated.
 
-### 3. database_operations.py
+### 3. db_operations.py
 This file calls the **psycopg2 wrapper module, _db_interface.py_** and carries out various specific database operations such as adding and deleting users, retrieving previous transaction info, etc. 
-It opens the required **.sql file stored in the _sql_scripts_ directory** to carry out a database operation as and when called upon by message_processor.py to do so.
+It opens the required **.sql file stored in the _sql_scripts_ directory** to carry out a database operation as and when called upon by app_engine.py to do so.
 
 ### 4. db_interface.py
 This file is a module that acts as wrapper for the **psycopg2 library; A PostgreSQL database adapter module for Python**. It consists of class **pool_init()** and two standalone functions; **cnnct()** and **dscnnct()**. 
 The  pool_init class is a **_decorator class_** for the cnnct() function. 
 
-When cnnct() is called for the first time, **pool_init() creates a psycopg2 connection pool object** and passes it to cnnct() from which it can get connection objects and cursors and pass them on to  database_operations.py when called upon. The cursor is then used to perform the required database query. After the query is complete. The dscnnct() function is called that commits any changes, closes the cursor object, and puts the connection object back into the connection pool.
+When cnnct() is called for the first time, **pool_init() creates a psycopg2 connection pool object** and passes it to cnnct() from which it can get connection objects and cursors and pass them on to  db_operations.py when called upon. The cursor is then used to perform the required database query. After the query is complete. The dscnnct() function is called that commits any changes, closes the cursor object, and puts the connection object back into the connection pool.
 
-### 5. api_caller.py
+### 5. telegrambot_caller.py
 This file calls the functions in **telegrambot.py**, which is a wrapper module that implements the Telegram bot API. It **parses the json object returned from telegrambot.py** for necessary info and passes the info onwards.
 
 ### 6. telegrambot.py
 This is a wrapper module that implements the Telegram bot API functions **getUpdates** and **sendMessage**
 
 ### 7. replies.py
-This file opens the bot's reply templates stored in the _replies_ directory and returns them to message_processor.py when called upon.
+This file opens the bot's reply templates stored in the _replies_ directory and returns them to app_engine.py when called upon.
 
-### 8. reset_db.py
+### 8. db_reset.py
 This file resets the PostgreSQL database 
 
 ### 9. replies_loader.py
 This file **loads the bot's reply templates** that are stored in the **replies** directory and stores them in dictionaries that can be accessed when needed by importing.
 
-### 10. sql_scripts_loader.py
+### 10. db_scripts_loader.py
 This file **loads the sql scripts** that are stored in the **sql_scripts** directory and stores them in a dictionary that can be accessed when needed by importing.
 
 ## Control Flow Diagram

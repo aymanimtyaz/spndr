@@ -2,7 +2,7 @@ import psycopg2 as pg2
 from psycopg2 import pool as pl
 from config import user, password
 
-class pool_init():
+class pool_init:
     
     data = 'spndr'
     usr = user

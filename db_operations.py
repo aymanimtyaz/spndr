@@ -1,4 +1,6 @@
-''' This module acts as a caller for the psycopg2 wrapper class and allows allows us to work with our PostgreSQL database.
+''' This module calls the cnnct() and dscnnct() functions to get cursors with which it can interface with our Postgres
+    database in the backend. The sql scripts it executes using the cursors are stored in the sql_scripts dictionary which
+    is imported from the db_scripts_loader module.
 
 
     FUNCTIONS IN THIS MODULE
@@ -31,7 +33,7 @@
 '''
 
 from db_interface import cnnct, dscnnct
-from sql_scripts_loader import sql_scripts as ss
+from db_scripts_loader import sql_scripts as ss
 
 def getTransactionState(sender_id):
     pool, con, curs = cnnct()
