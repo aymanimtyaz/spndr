@@ -69,7 +69,7 @@ This file **loads the bot's reply templates** that are stored in the **replies**
 This file **loads the sql scripts** that are stored in the **sql_scripts** directory and stores them in a dictionary that can be accessed when needed by importing.
 
 ## Control Flow Diagram
-![CONTROL FLOW DIAGRAM](https://i.ibb.co/zQGnyq6/DATA-FLOW-DIAGRAM-2.png)
+![CONTROL FLOW DIAGRAM](https://i.ibb.co/VmK4JJR/DATA-FLOW-DIAGRAM-3.png)
 ## PostgreSQL Database Schema
 ![DATABASE SCHEMA](https://i.ibb.co/dr5389N/DATABASE-SCHEMA.png)
 
