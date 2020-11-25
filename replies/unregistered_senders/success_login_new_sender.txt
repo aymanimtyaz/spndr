@@ -1,0 +1,17 @@
+You've successfully linked this
+telegram account to your spndr 
+account!
+
+To start a new transaction, send
+new.
+
+To look at 10 of your latest
+transactions, send show.
+
+For a list of commands, send
+!help.
+
+If you want to abandon an ongoing
+transaction, send !abort.
+
+Happy spndng!

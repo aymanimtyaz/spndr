@@ -1,5 +1,3 @@
-Are you sure you want to delete 
-your account?
-
-Your data will be lost forever
-if you do so (y/n).
+Are you sure you want to unlink
+this telegram account from your 
+spndr account (y/n)?

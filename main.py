@@ -1,7 +1,22 @@
-import telegrambot_caller as ac 
-import app_engine as ae
-from db_scripts_loader import sql_scripts
-from replies_loader import replies_dicts
+try:
+    from spndr_tg import telegrambot_caller as ac 
+except ModuleNotFoundError:
+    import telegrambot_caller as ac
+
+try:
+    from spndr_tg import app_engine as ae
+except ModuleNotFoundError:
+    import app_engine as ae
+
+try:
+    from spndr_tg.db_scripts_loader import sql_scripts
+except ModuleNotFoundError:
+    from db_scripts_loader import sql_scripts
+
+try:
+    from spndr_tg.replies_loader import replies_dicts
+except ModuleNotFoundError:
+    from replies_loader import replies_dicts
 
 def init_app():
     sql_scripts.scr_dict
@@ -14,7 +29,7 @@ def init_app():
 
 def main():
     while True:
-        sid, msg, cid, uid = ac.getMsg()
+        sid, msg, cid = ac.getMsg()
         print('MESSAGE SENT:', msg)
         message_to_return = ae.return_message(msg, sid, cid)
         ac.sendMsg(cid, message_to_return)

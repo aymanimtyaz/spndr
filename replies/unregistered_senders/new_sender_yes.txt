@@ -1,24 +1,12 @@
-Congratulation! You have successfully 
-signed up for spndr!
+Great!
 
-To use spndr, all you have to do is 
-follow what we tell you. To start a 
-new transaction, simply send 'new' 
-and we will start a transaction for 
-you!
+Send 1 if you would like to
+login with an existing spndr
+account.
 
-If you want to abort an ongoing
-transaction, send '!abort' and we 
-will stop the transaction.
+Send 2 if you would like to
+create a new spndr account.
 
-You can look at your recent purchases
-with 'show'.
-
-If you ever get stuck, send '!help'
-and we will be there to guide you.
-
-If you want to delete your account,
-send 'delete'.
-
-happy spndng!
-
+If you would like to stop at 
+any point in the login process,
+send !quit.

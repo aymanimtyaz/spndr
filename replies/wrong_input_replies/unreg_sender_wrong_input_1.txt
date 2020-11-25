@@ -1,0 +1,6 @@
+Send 1 if you would like to
+sign in with an existing 
+spndr account.
+
+Send 2 if you would like to
+create a new spndr account.

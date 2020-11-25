@@ -1,6 +1,9 @@
 import psycopg2 as pg2
 from psycopg2 import pool as pl
-from config import user, password
+try:    
+    from spndr_tg.config import user, password
+except:
+    from config import user, password
 
 class pool_init:
     

@@ -18,7 +18,10 @@
 '''
 
 import requests, json, os
-from config import bot_token
+try:
+    from spndr_tg.config import bot_token
+except ModuleNotFoundError:
+    from config import bot_token
 
 class communicate:
 

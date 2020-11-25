@@ -1,5 +1,7 @@
-Your account was successfully deleted.
-If you ever want to use Spndr again,
-send us a message.
+This telegram account was successfully 
+unlinked from your spndr account. 
+
+If you ever want to use Spndr with
+telegram again, send us a message!
 
 Have a great day!

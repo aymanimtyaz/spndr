@@ -1,5 +1,27 @@
-INSERT INTO transactions(u_id, item, price, vendor, category)
-SELECT u_id, item, price, vendor, category 
-FROM current_transaction
-WHERE u_id = (%(sender_id)s);
+INSERT INTO transactions(id, item, price, vendor, category)
+VALUES
+((%(user_id)s), 
 
+ (SELECT item
+  FROM current_transaction
+  WHERE telegram_id = (%(sender_id)s)
+  LIMIT 1), 
+  
+ (SELECT price
+  FROM current_transaction
+  WHERE telegram_id = (%(sender_id)s)
+  LIMIT 1), 
+
+ (SELECT vendor
+  FROM current_transaction
+  WHERE telegram_id = (%(sender_id)s)
+  LIMIT 1), 
+
+ (SELECT category
+  FROM current_transaction
+  WHERE telegram_id = (%(sender_id)s)
+  LIMIT 1)
+);
+
+DELETE FROM current_transaction
+WHERE telegram_id = (%(sender_id)s);

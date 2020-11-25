@@ -1,4 +1,8 @@
-from telegrambot import communicate
+try:
+    from spndr_tg.telegrambot import communicate
+except ModuleNotFoundError:
+    from telegrambot import communicate
+    
 import json
 
 
@@ -19,15 +23,14 @@ def getMsg(*args):
 
     sender_id = json_obj['result'][-1]['message']['from']['id']
     chat_id = json_obj['result'][-1]['message']['chat']['id']
-    update_id = json_obj['result'][-1]['update_id']
 
     try:
         message_body = json_obj['result'][-1]['message']['text']
     except KeyError:
-        return sender_id, '!non_text_input', chat_id, update_id
+        return sender_id, '!non_text_input', chat_id
 
     message_body = json_obj['result'][-1]['message']['text']
-    return sender_id, message_body, chat_id, update_id
+    return sender_id, message_body, chat_id
 
 ''' FUNCTION TO SEND MESSAGE '''
 @init_obj

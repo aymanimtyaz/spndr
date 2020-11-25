@@ -3,4 +3,4 @@ SET
 transaction_state = 3,
 vendor = (%(vendor)s)
 WHERE
-u_id = (%(sender_id)s);
+telegram_id = (%(sender_id)s);

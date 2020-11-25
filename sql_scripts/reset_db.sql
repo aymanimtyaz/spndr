@@ -1,21 +1,21 @@
-/* This script initiallizes the following tables/relations:*/
-
---transactions: This table records all the individual spending that a user commits to the application.
---users: This table holds the telegram unique id of all the people who are subscribed to the application.
---current_transaction: This table stores the state of current ongoing transactions.
-
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS current_transaction;
 DROP TABLE IF EXISTS users;
 
-
 CREATE TABLE IF NOT EXISTS users(   
-	id BIGINT NOT NULL PRIMARY KEY UNIQUE                --primary key, unique, numeric id give by telegram to each user
+	id SERIAL NOT NULL PRIMARY KEY UNIQUE,                
+    email VARCHAR(64) NOT NULL UNIQUE,
+    telegram_id BIGINT UNIQUE,
+    hashed_password VARCHAR(150) NOT NULL
 );
 
+CREATE INDEX users_id_idx ON users(id);
+CREATE INDEX users_email_idx ON users(email);
+CREATE INDEX users_telegram_id_idx ON users(telegram_id);
+
 CREATE TABLE IF NOT EXISTS transactions(
-	id SERIAL NOT NULL PRIMARY KEY UNIQUE,                --primary key
-	u_id BIGINT NOT NULL REFERENCES users (id),           --foreign key, id of the user who committed the transaction
+	t_id SERIAL NOT NULL PRIMARY KEY UNIQUE,                
+	id BIGINT NOT NULL REFERENCES users (id),           
 	item TEXT NOT NULL,
 	price DECIMAL NOT NULL CHECK(price > 0),
 	vendor TEXT,
@@ -23,8 +23,12 @@ CREATE TABLE IF NOT EXISTS transactions(
 	date_of_purchase DATE DEFAULT CURRENT_DATE NOT NULL
 );
 
+CREATE INDEX transactions_id_idx on transactions(id);
+
 CREATE TABLE IF NOT EXISTS current_transaction(
-	u_id BIGINT NOT NULL PRIMARY KEY UNIQUE,
+	telegram_id BIGINT NOT NULL PRIMARY KEY UNIQUE,
+	email VARCHAR(64),
+	hashed_password VARCHAR(150),
 	transaction_state INTEGER NOT NULL,
 	previous_transaction_state INTEGER,
 	item TEXT,

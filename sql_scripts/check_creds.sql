@@ -1,1 +1,1 @@
-SELECT EXISTS (SELECT * FROM users WHERE id = (%(sender_id)s));
+SELECT EXISTS (SELECT * FROM users WHERE telegram_id = (%(sender_id)s));

@@ -3,4 +3,4 @@ SET
 previous_transaction_state = (%(previous_transaction_state)s),
 transaction_state = 5
 WHERE
-u_id = (%(sender_id)s);
+telegram_id = (%(sender_id)s);

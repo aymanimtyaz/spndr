@@ -1,0 +1,5 @@
+Would you like to use spndr
+through telegram?
+
+Send y for yes.
+Send n for no.

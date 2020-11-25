@@ -1,8 +1,8 @@
-DELETE FROM transactions
-WHERE u_id = (%(sender_id)s);
-
-DELETE FROM users
-WHERE id = (%(sender_id)s);
+UPDATE users
+set
+telegram_id = NULL
+WHERE
+telegram_id = (%(sender_id)s);
 
 DELETE FROM current_transaction
-WHERE u_id = (%(sender_id)s);
+WHERE telegram_id = (%(sender_id)s);

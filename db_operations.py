@@ -31,9 +31,15 @@
 
     10. deleteUser() - This function removes a user from the database, essentially deleting the user's account.
 '''
+try:
+    from spndr_tg.db_interface import cnnct, dscnnct
+except ModuleNotFoundError:
+    from db_interface import cnnct, dscnnct
 
-from db_interface import cnnct, dscnnct
-from db_scripts_loader import sql_scripts as ss
+try:    
+    from spndr_tg.db_scripts_loader import sql_scripts as ss
+except ModuleNotFoundError:
+    from db_scripts_loader import sql_scripts as ss
 
 def getTransactionState(sender_id):
     pool, con, curs = cnnct()
@@ -72,9 +78,9 @@ def updateTransaction(sender_id, message, transaction_state):
         commitTransaction(sender_id)
     
 def commitTransaction(sender_id):
+    user_id = getUserID(sender_id)
     pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['commit_transaction'], {"sender_id":sender_id})
-    curs.execute(ss.scr_dict['delete_completed_transaction'], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['commit_transaction'], {"sender_id":sender_id, "user_id":user_id})
     dscnnct(pool, con, curs)
 
 def abortTransaction(message, sender_id, transaction_state):
@@ -94,13 +100,18 @@ def checkCreds(sender_id):
     curs.execute(ss.scr_dict['check_creds'], {"sender_id":sender_id})
     creds_exist = curs.fetchone()[0]
     dscnnct(pool, con, curs)
-    if creds_exist:
-        return True
-    return False
+    return creds_exist
 
-def createAccount(sender_id):
+def createAccount(sender_id, state, email = None, password = None):
+    creation_dict = {1:ss.scr_dict['create_account_state_1'],
+                     2:ss.scr_dict['create_account_state_2'],
+                     3:ss.scr_dict['create_account_state_3'],
+                     4:ss.scr_dict['create_account_state_4'],
+                     5:ss.scr_dict['create_account_state_5'],
+                     6:ss.scr_dict['create_account_state_6'],
+                     7:ss.scr_dict['create_account_state_7']}
     pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['create_account'], {"sender_id":sender_id})
+    curs.execute(creation_dict[state], {"sender_id":sender_id, "email":email, "hashed_password":password})
     dscnnct(pool, con, curs)
     
 def deleteNewSender(sender_id):
@@ -109,8 +120,9 @@ def deleteNewSender(sender_id):
     dscnnct(pool, con, curs)
 
 def lastTenTransactions(sender_id):
+    user_id = getUserID(sender_id)
     pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['get_last_ten_transactions'], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['get_last_ten_transactions'], {"user_id":user_id})
     spending_data = curs.fetchmany(10)
     dscnnct(pool, con, curs)
     return spending_data
@@ -123,3 +135,39 @@ def deleteUser(sender_id, state):
     pool, con, curs = cnnct()
     curs.execute(deletion_dict[state], {"sender_id":sender_id})
     dscnnct(pool, con, curs)
+
+def checkIfEmailInUse(email):
+    pool, con, curs = cnnct()
+    curs.execute(ss.scr_dict['check_if_email_in_use'], {"email":email})
+    email_exists = curs.fetchone()[0]
+    dscnnct(pool, con, curs)
+    return email_exists
+
+def retrievePassword(sender_id):
+    pool, con, curs = cnnct()
+    curs.execute(ss.scr_dict['retrieve_password'], {"sender_id":sender_id})
+    hashed_password = curs.fetchone()[0]
+    dscnnct(pool, con, curs)
+    return hashed_password
+
+def getUserID(sender_id):
+    pool, con, curs = cnnct()
+    curs.execute(ss.scr_dict['get_user_id'], {"sender_id":sender_id})
+    user_id = curs.fetchone()[0]
+    dscnnct(pool, con, curs)
+    return user_id
+
+'''################################################################################################################################'''
+
+def add_new_transaction_ws(id, item, price, vendor, category):
+    pool, con, curs = cnnct()
+    curs.execute(ss.scr_dict['add_new_transaction_ws'], {"id":id, "item":item, "price":price, "vendor":vendor, "category":category})
+    dscnnct(pool, con, curs)
+
+def get_last_ten_transactions_ws(id):
+    pool, con, curs = cnnct()
+    curs.execute(ss.scr_dict['get_last_ten_transactions_ws'], {"id":id})
+    spending_data = curs.fetchmany(10)
+    dscnnct(pool, con, curs)
+    return spending_data
+
