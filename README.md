@@ -1,7 +1,7 @@
 # Welcome to spndr!
 
 ## Running Instructions
-1. Make sure you have Python installed with the **_psycopg2_** and **_requests_** package.
+1. Make sure you have Python installed with the **_psycopg2_**, **_requests_**, and **_flask-bcrypt_** packages.
 2. Make sure you have PostgreSQL installed.
 3. Clone this repo.  
 4. Create a config.py file in the repo and add the following variables to it:
@@ -29,7 +29,10 @@ The program logic of the bot is fairly simple.
 3. Sends the reply selected in step 2b. above to the user.
 
 And the process repeats.
- 
+
+
+### WARNING!!!, THE NEXT SECTION IS CURRENTLY OUTDATED AND WILL BE UPDATED SOON
+
 ## File functionality
 This is a brief description of each file in its current state:
 
