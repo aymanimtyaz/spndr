@@ -1,5 +1,6 @@
 import psycopg2 as pg2
 from psycopg2 import pool as pl
+
 try:    
     from spndr_tg.config import user, password
 except:

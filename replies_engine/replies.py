@@ -19,9 +19,9 @@
                                      sends a message to the bot.
 '''
 try:
-    from spndr_tg.replies_loader import replies_dicts as rd
+    from spndr_tg.replies_engine.replies_loader import replies_dicts as rd
 except ModuleNotFoundError:
-    from replies_loader import replies_dicts as rd
+    from replies_engine.replies_loader import replies_dicts as rd
 
 def standard_reply(transaction_state):
     return_dict = {None:rd.standard_transaction['transaction_state_zero'],

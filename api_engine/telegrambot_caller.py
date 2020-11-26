@@ -1,7 +1,7 @@
 try:
-    from spndr_tg.telegrambot import communicate
+    from spndr_tg.api_engine.telegrambot import communicate
 except ModuleNotFoundError:
-    from telegrambot import communicate
+    from api_engine.telegrambot import communicate
     
 import json
 

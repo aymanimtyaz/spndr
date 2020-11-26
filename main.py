@@ -1,22 +1,22 @@
 try:
-    from spndr_tg import telegrambot_caller as ac 
+    from spndr_tg.api_engine import telegrambot_caller as ac
 except ModuleNotFoundError:
-    import telegrambot_caller as ac
+    from api_engine import telegrambot_caller as ac
 
 try:
-    from spndr_tg import app_engine as ae
+    from spndr_tg.app_engine import app_engine as ae
 except ModuleNotFoundError:
-    import app_engine as ae
+    from app_engine import app_engine as ae
 
 try:
-    from spndr_tg.db_scripts_loader import sql_scripts
+    from spndr_tg.db_engine.db_scripts_loader import sql_scripts
 except ModuleNotFoundError:
-    from db_scripts_loader import sql_scripts
+    from db_engine.db_scripts_loader import sql_scripts
 
 try:
-    from spndr_tg.replies_loader import replies_dicts
+    from spndr_tg.replies_engine.replies_loader import replies_dicts
 except ModuleNotFoundError:
-    from replies_loader import replies_dicts
+    from replies_engine.replies_loader import replies_dicts
 
 def init_app():
     sql_scripts.scr_dict

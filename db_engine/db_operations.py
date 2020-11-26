@@ -32,14 +32,14 @@
     10. deleteUser() - This function removes a user from the database, essentially deleting the user's account.
 '''
 try:
-    from spndr_tg.db_interface import cnnct, dscnnct
+    from spndr_tg.db_engine.db_interface import cnnct, dscnnct
 except ModuleNotFoundError:
-    from db_interface import cnnct, dscnnct
+    from db_engine.db_interface import cnnct, dscnnct
 
 try:    
-    from spndr_tg.db_scripts_loader import sql_scripts as ss
+    from spndr_tg.db_engine.db_scripts_loader import sql_scripts as ss
 except ModuleNotFoundError:
-    from db_scripts_loader import sql_scripts as ss
+    from db_engine.db_scripts_loader import sql_scripts as ss
 
 def getTransactionState(sender_id):
     pool, con, curs = cnnct()
