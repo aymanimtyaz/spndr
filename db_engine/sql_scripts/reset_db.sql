@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS transactions;
-DROP TABLE IF EXISTS current_transaction;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users(   
@@ -25,15 +24,16 @@ CREATE TABLE IF NOT EXISTS transactions(
 
 CREATE INDEX transactions_id_idx on transactions(id);
 
-CREATE TABLE IF NOT EXISTS current_transaction(
-	telegram_id BIGINT NOT NULL PRIMARY KEY UNIQUE,
-	email VARCHAR(64),
-	hashed_password VARCHAR(150),
-	transaction_state INTEGER NOT NULL,
-	previous_transaction_state INTEGER,
-	item TEXT,
-	price DECIMAL CHECK(price > 0),
-	vendor TEXT,
-	category TEXT
-)
+--REDACTED
+-- CREATE TABLE IF NOT EXISTS current_transaction(
+-- 	telegram_id BIGINT NOT NULL PRIMARY KEY UNIQUE,
+-- 	email VARCHAR(64),
+-- 	hashed_password VARCHAR(150),
+-- 	transaction_state INTEGER NOT NULL,
+-- 	previous_transaction_state INTEGER,
+-- 	item TEXT,
+-- 	price DECIMAL CHECK(price > 0),
+-- 	vendor TEXT,
+-- 	category TEXT
+-- )
 

@@ -18,31 +18,36 @@ try:
 except ModuleNotFoundError:
     from replies_engine import replies as r
 
+try:
+    from spndr_tg.db_engine import redis_operations as red
+except ModuleNotFoundError:
+    from db_engine import redis_operations as red
+
 def process_unreg_sender(message, sender_id, transaction_state):
     if transaction_state is None:
-        db.createNewTransaction(sender_id)
+        red.createNewTransaction(sender_id)
         return r.unregistered_sender_reply(state = 1)
 
     if transaction_state == 0:
         if message == 'y' or message == 'n':
             if message == 'n':
-                db.deleteNewSender(sender_id)
+                red.deleteTransaction(sender_id)
                 return r.unregistered_sender_reply(state = 3)
-            db.createAccount(sender_id, state = 1)
+            red.createAccount(sender_id, state = 1)
             return r.unregistered_sender_reply(state = 2)
-
+        
         return r.wrong_input_reply(input_error_code = 4)
-    
+
     if message == '!quit':
-        db.deleteNewSender(sender_id)
+        red.deleteTransaction(sender_id)
         return r.unregistered_sender_reply(state = 3)
 
     if transaction_state == 1:
         if message == '1' or message == '2':
             if message == '1':
-                db.createAccount(sender_id, state = 2)
+                red.createAccount(sender_id, state = 2)
                 return r.unregistered_sender_reply(state = 4)
-            db.createAccount(sender_id, state = 3)
+            red.createAccount(sender_id, state = 3)
             return r.unregistered_sender_reply(state = 4)
 
         return r.wrong_input_reply(input_error_code = 6)
@@ -51,23 +56,77 @@ def process_unreg_sender(message, sender_id, transaction_state):
         if not email_is_valid(message):
             return r.wrong_input_reply(input_error_code = 7)
         if transaction_state == 2:
-            db.createAccount(sender_id, state = 4, email = message)
+            red.createAccount(sender_id, state = 4, email = message)
             return r.unregistered_sender_reply(state = 5)
         if not db.checkIfEmailInUse(email = message):
-            db.createAccount(sender_id, state = 5, email = message)
+            red.createAccount(sender_id, state = 5, email = message)
             return r.unregistered_sender_reply(state = 6)
         return r.wrong_input_reply(input_error_code = 8)
 
     if transaction_state == 4 or transaction_state == 5:
         if transaction_state == 4:
-            hashed_password = db.retrievePassword(sender_id)
+            email = red.getUserInfo(sender_id, requested_info = 'email')
+            hashed_password = db.retrievePassword(email)
             if check_password_hash(hashed_password, message):
-                db.createAccount(sender_id, state = 6)
+                red.createAccount(sender_id, state = 'login')
                 return r.unregistered_sender_reply(state = 7)
             return r.wrong_input_reply(input_error_code = 9)
         hashed_password = generate_password_hash(message).decode('utf-8')
-        db.createAccount(sender_id, state = 7, password = hashed_password)
+        red.createAccount(sender_id, state = 'signup', hashed_password = hashed_password)
         return r.unregistered_sender_reply(state = 8)
+
+
+#### REDACTED ####
+# def process_unreg_sender(message, sender_id, transaction_state):
+#     if transaction_state is None:
+#         db.createNewTransaction(sender_id)
+#         return r.unregistered_sender_reply(state = 1)
+
+#     if transaction_state == 0:
+#         if message == 'y' or message == 'n':
+#             if message == 'n':
+#                 db.deleteNewSender(sender_id)
+#                 return r.unregistered_sender_reply(state = 3)
+#             db.createAccount(sender_id, state = 1)
+#             return r.unregistered_sender_reply(state = 2)
+
+#         return r.wrong_input_reply(input_error_code = 4)
+    
+#     if message == '!quit':
+#         db.deleteNewSender(sender_id)
+#         return r.unregistered_sender_reply(state = 3)
+
+#     if transaction_state == 1:
+#         if message == '1' or message == '2':
+#             if message == '1':
+#                 db.createAccount(sender_id, state = 2)
+#                 return r.unregistered_sender_reply(state = 4)
+#             db.createAccount(sender_id, state = 3)
+#             return r.unregistered_sender_reply(state = 4)
+
+#         return r.wrong_input_reply(input_error_code = 6)
+
+#     if transaction_state == 2 or transaction_state == 3:
+#         if not email_is_valid(message):
+#             return r.wrong_input_reply(input_error_code = 7)
+#         if transaction_state == 2:
+#             db.createAccount(sender_id, state = 4, email = message)
+#             return r.unregistered_sender_reply(state = 5)
+#         if not db.checkIfEmailInUse(email = message):
+#             db.createAccount(sender_id, state = 5, email = message)
+#             return r.unregistered_sender_reply(state = 6)
+#         return r.wrong_input_reply(input_error_code = 8)
+
+#     if transaction_state == 4 or transaction_state == 5:
+#         if transaction_state == 4:
+#             hashed_password = db.retrievePassword(sender_id)
+#             if check_password_hash(hashed_password, message):
+#                 db.createAccount(sender_id, state = 6)
+#                 return r.unregistered_sender_reply(state = 7)
+#             return r.wrong_input_reply(input_error_code = 9)
+#         hashed_password = generate_password_hash(message).decode('utf-8')
+#         db.createAccount(sender_id, state = 7, password = hashed_password)
+#         return r.unregistered_sender_reply(state = 8)
 
 def email_is_valid(message):
     email_regex = r'^[a-zA-Z0-9]+[a-zA-Z0-9.-_]*@[a-zA-Z0-9-]+[.][a-z0-9]{2,3}'

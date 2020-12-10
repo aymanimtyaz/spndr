@@ -41,59 +41,71 @@ try:
 except ModuleNotFoundError:
     from db_engine.db_scripts_loader import sql_scripts as ss
 
-def getTransactionState(sender_id):
-    pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['get_transaction_state'], {"sender_id":sender_id})
-    query_result = curs.fetchone()
-    dscnnct(pool, con, curs)
-    if query_result is None:
-        return None
-    transaction_state = query_result[0]
-    return transaction_state
+#### REDACTED ####
+# def getTransactionState(sender_id):
+#     pool, con, curs = cnnct()
+#     curs.execute(ss.scr_dict['get_transaction_state'], {"sender_id":sender_id})
+#     query_result = curs.fetchone()
+#     dscnnct(pool, con, curs)
+#     if query_result is None:
+#         return None
+#     transaction_state = query_result[0]
+#     return transaction_state
 
-def createNewTransaction(sender_id):
-    pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['create_new_transaction'], {"sender_id":sender_id})
-    dscnnct(pool, con, curs)
+#### REDACTED ####
+# def createNewTransaction(sender_id):
+#     pool, con, curs = cnnct()
+#     curs.execute(ss.scr_dict['create_new_transaction'], {"sender_id":sender_id})
+#     dscnnct(pool, con, curs)
 
-def updateTransaction(sender_id, message, transaction_state):
-    updation_dict = {0:[ss.scr_dict['add_product_service'], 
-                        {"prod_serv":message, "sender_id":sender_id}],
+#### REDACTED ####
+# def updateTransaction(sender_id, message, transaction_state):
+#     updation_dict = {0:[ss.scr_dict['add_product_service'], 
+#                         {"prod_serv":message, "sender_id":sender_id}],
 
-                     1:[ss.scr_dict['add_price'],
-                        {"price":message, "sender_id":sender_id}],
+#                      1:[ss.scr_dict['add_price'],
+#                         {"price":message, "sender_id":sender_id}],
 
-                     2:[ss.scr_dict['add_vendor'],
-                        {"vendor":message, "sender_id":sender_id}],
+#                      2:[ss.scr_dict['add_vendor'],
+#                         {"vendor":message, "sender_id":sender_id}],
 
-                     3:[ss.scr_dict['add_category'],
-                        {"category":message, "sender_id":sender_id}]}
+#                      3:[ss.scr_dict['add_category'],
+#                         {"category":message, "sender_id":sender_id}]}
     
-    pool, con, curs = cnnct()
-    curs.execute(updation_dict[transaction_state][0], updation_dict[transaction_state][1])
-    dscnnct(pool, con, curs)
+#     pool, con, curs = cnnct()
+#     curs.execute(updation_dict[transaction_state][0], updation_dict[transaction_state][1])
+#     dscnnct(pool, con, curs)
     
-    transaction_state = getTransactionState(sender_id)
-    if transaction_state == 4:
-        commitTransaction(sender_id)
-    
-def commitTransaction(sender_id):
-    user_id = getUserID(sender_id)
-    pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['commit_transaction'], {"sender_id":sender_id, "user_id":user_id})
-    dscnnct(pool, con, curs)
+#     transaction_state = getTransactionState(sender_id)
+#     if transaction_state == 4:
+#         commitTransaction(sender_id, completed_transaction)
 
-def abortTransaction(message, sender_id, transaction_state):
+def commitTransaction(sender_id, completed_transaction):
     pool, con, curs = cnnct()
-    if message.lower() == '!abort':
-        curs.execute(ss.scr_dict['init_abort_transaction'], 
-                    {"previous_transaction_state":transaction_state, "sender_id":sender_id})
-    elif transaction_state == 5:
-        if message == 'y':
-            curs.execute(ss.scr_dict['confirm_abort_transaction'], {"sender_id":sender_id})
-        elif message == 'n':
-            curs.execute(ss.scr_dict['stop_abort_transaction'], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['commit_transaction_2'], {"sender_id":sender_id, "item":completed_transaction['item'],
+                                                       "price":completed_transaction['price'], "vendor":completed_transaction['vendor'],
+                                                        "category":completed_transaction['category']})
     dscnnct(pool, con, curs)
+    
+#### REDACTED ####
+# def commitTransaction(sender_id):
+#     user_id = getUserID(sender_id)
+#     pool, con, curs = cnnct()
+#     curs.execute(ss.scr_dict['commit_transaction'], {"sender_id":sender_id, "user_id":user_id})
+#     dscnnct(pool, con, curs)
+
+#### REDACTED ####
+# def abortTransaction(message, sender_id, transaction_state):
+#     pool, con, curs = cnnct()
+#     if message.lower() == '!abort':
+#         curs.execute(ss.scr_dict['init_abort_transaction'], 
+#                     {"previous_transaction_state":transaction_state, "sender_id":sender_id})
+#     elif transaction_state == 5:
+#         if message == 'y':
+#             curs.execute(ss.scr_dict['confirm_abort_transaction'], {"sender_id":sender_id})
+#         elif message == 'n':
+#             curs.execute(ss.scr_dict['stop_abort_transaction'], {"sender_id":sender_id})
+#     dscnnct(pool, con, curs)
 
 def checkCreds(sender_id):
     pool, con, curs = cnnct()
@@ -102,22 +114,31 @@ def checkCreds(sender_id):
     dscnnct(pool, con, curs)
     return creds_exist
 
-def createAccount(sender_id, state, email = None, password = None):
-    creation_dict = {1:ss.scr_dict['create_account_state_1'],
-                     2:ss.scr_dict['create_account_state_2'],
-                     3:ss.scr_dict['create_account_state_3'],
-                     4:ss.scr_dict['create_account_state_4'],
-                     5:ss.scr_dict['create_account_state_5'],
-                     6:ss.scr_dict['create_account_state_6'],
-                     7:ss.scr_dict['create_account_state_7']}
+def createAccount(sender_id, state, user_info):
+    creation_dict = {'login':ss.scr_dict['create_account_login'],
+                     'signup':ss.scr_dict['create_account_signup']}
     pool, con, curs = cnnct()
-    curs.execute(creation_dict[state], {"sender_id":sender_id, "email":email, "hashed_password":password})
+    curs.execute(creation_dict[state], {"sender_id":sender_id, "email":user_info['email'], "hashed_password":user_info['hashed_password']})
     dscnnct(pool, con, curs)
+
+#### REDACTED ###
+# def createAccount(sender_id, state, email = None, password = None):
+#     creation_dict = {1:ss.scr_dict['create_account_state_1'],
+#                      2:ss.scr_dict['create_account_state_2'],
+#                      3:ss.scr_dict['create_account_state_3'],
+#                      4:ss.scr_dict['create_account_state_4'],
+#                      5:ss.scr_dict['create_account_state_5'],
+#                      6:ss.scr_dict['create_account_state_6'],
+#                      7:ss.scr_dict['create_account_state_7']}
+#     pool, con, curs = cnnct()
+#     curs.execute(creation_dict[state], {"sender_id":sender_id, "email":email, "hashed_password":password})
+#     dscnnct(pool, con, curs)
     
-def deleteNewSender(sender_id):
-    pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['delete_new_sender'], {"sender_id":sender_id})
-    dscnnct(pool, con, curs)
+#### REDACTED ####
+# def deleteNewSender(sender_id):
+#     pool, con, curs = cnnct()
+#     curs.execute(ss.scr_dict['delete_new_sender'], {"sender_id":sender_id})
+#     dscnnct(pool, con, curs)
 
 def lastTenTransactions(sender_id):
     user_id = getUserID(sender_id)
@@ -127,14 +148,20 @@ def lastTenTransactions(sender_id):
     dscnnct(pool, con, curs)
     return spending_data
     
-def deleteUser(sender_id, state):
-    deletion_dict = {1:ss.scr_dict['init_user_deletion'],
-                     2:ss.scr_dict['delete_user'],
-                     3:ss.scr_dict['abort_user_deletion']}
-
+def deleteUser(sender_id):
     pool, con, curs = cnnct()
-    curs.execute(deletion_dict[state], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['delete_user'], {"sender_id":sender_id})
     dscnnct(pool, con, curs)
+
+#### REDACTED ####
+# def deleteUser(sender_id, state):
+#     deletion_dict = {1:ss.scr_dict['init_user_deletion'],
+#                      2:ss.scr_dict['delete_user'],
+#                      3:ss.scr_dict['abort_user_deletion']}
+
+#     pool, con, curs = cnnct()
+#     curs.execute(deletion_dict[state], {"sender_id":sender_id})
+#     dscnnct(pool, con, curs)
 
 def checkIfEmailInUse(email):
     pool, con, curs = cnnct()
@@ -143,9 +170,9 @@ def checkIfEmailInUse(email):
     dscnnct(pool, con, curs)
     return email_exists
 
-def retrievePassword(sender_id):
+def retrievePassword(email):
     pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['retrieve_password'], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['retrieve_password'], {"email":email})
     hashed_password = curs.fetchone()[0]
     dscnnct(pool, con, curs)
     return hashed_password

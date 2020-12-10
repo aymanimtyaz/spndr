@@ -69,22 +69,29 @@ except ModuleNotFoundError:
 
 try:
     from spndr_tg.app_engine.process_unreg_sender import process_unreg_sender
-except:
+except ModuleNotFoundError:
     from app_engine.process_unreg_sender import process_unreg_sender
 
 try:
     from spndr_tg.app_engine.process_command import process_command
-except:
+except ModuleNotFoundError:
     from app_engine.process_command import process_command
 
 try:
     from spndr_tg.app_engine.process_reg_sender import process_reg_sender
-except:
+except ModuleNotFoundError:
     from app_engine.process_reg_sender import process_reg_sender
+
+try:
+    from spndr_tg.db_engine import redis_operations as red
+except ModuleNotFoundError:
+    from db_engine import redis_operations as red
 
 
 def return_message(message, sender_id, chat_id):
-    transaction_state = db.getTransactionState(sender_id)
+    #### REDACTED ####
+    # transaction_state = db.getTransactionState(sender_id)
+    transaction_state = red.getTransactionState(sender_id)
     cred_state = db.checkCreds(sender_id)
     print(cred_state)
 
