@@ -5,31 +5,26 @@
 
     FUNCTIONS IN THIS MODULE
 
-    1. getTransactionState() - Retrieves the transaction state of the sender of the message currently being processed.
-                               If the sender doesn't have an ongoing transaction, it will return None.
+    1. commitTransaction() - Once a transaction has been completed. The transaction information is taken from the 
+                             Redis database and committed to the transactions database.
 
-    2. createNewTransaction() - If the sender has sent 'new' when their transaction state is none. A new transaction
-                                will be initiated for them, and their transaction state will be increased to 0.
+    2. checkCreds() - This function checks whether a particular sender is registered with the service or not.
 
-    3. updateTransaction() - Increments the transaction state and commits the newly provided date from the user to the 
-                             current_transaction database.
-                             It also calls commitTransaction() when a transaction has been completed. That is, when
-                             the transaction state equals 4.
+    3. createAccount() - This function registers a user's telegram account if they agree to join spndr.
 
-    4. commitTransaction() - Once a transaction has been completed. The transaction information is taken from the 
-                             current_transaction database and committed to the transactions database.
+    4. lastTenTransactions() - This function retrieves upto 10 of the latest transactions made by a specific user.
 
-    5. abortTransaction() - Aborts an ongoing transaction when the user gives the !abort command.
+    5. deleteUser() - This function unlinks a user's telegram account from their spndr account.
 
-    6. checkCreds() - This function checks whether a particular sender is registered with the service or not.
+    6. checkIfEmailInUse() - This function checks if the email entered by a user who wishes to signup is already in use or not.
 
-    7. createAccount() - This function registers a sender if they agree to join spndr.
+    7. retrievePassword() - This function retrieves the password of a user who wished to link their telegram account to an existing spndr account.
 
-    8. deleteNewSender() - This function removes an unregistered sender if they don't want to sign up for spndr.
+    8. getUserID() - This function gets the user ID of a user from their telegram account.
 
-    9. lastTenTransactions() - This function retrieves upto 10 of the latest transactions made by a specific user.
+    9. add_new_transaction_ws() - This function adds a users transaction to the database, when the user logs a transaction through the website.
 
-    10. deleteUser() - This function removes a user from the database, essentially deleting the user's account.
+    10. get_last_ten_transactions_ws() - This function get the 10 latest transactions of a user when they login to spndr on the website.
 '''
 try:
     from spndr_tg.db_engine.db_interface import cnnct, dscnnct
@@ -41,45 +36,6 @@ try:
 except ModuleNotFoundError:
     from db_engine.db_scripts_loader import sql_scripts as ss
 
-#### REDACTED ####
-# def getTransactionState(sender_id):
-#     pool, con, curs = cnnct()
-#     curs.execute(ss.scr_dict['get_transaction_state'], {"sender_id":sender_id})
-#     query_result = curs.fetchone()
-#     dscnnct(pool, con, curs)
-#     if query_result is None:
-#         return None
-#     transaction_state = query_result[0]
-#     return transaction_state
-
-#### REDACTED ####
-# def createNewTransaction(sender_id):
-#     pool, con, curs = cnnct()
-#     curs.execute(ss.scr_dict['create_new_transaction'], {"sender_id":sender_id})
-#     dscnnct(pool, con, curs)
-
-#### REDACTED ####
-# def updateTransaction(sender_id, message, transaction_state):
-#     updation_dict = {0:[ss.scr_dict['add_product_service'], 
-#                         {"prod_serv":message, "sender_id":sender_id}],
-
-#                      1:[ss.scr_dict['add_price'],
-#                         {"price":message, "sender_id":sender_id}],
-
-#                      2:[ss.scr_dict['add_vendor'],
-#                         {"vendor":message, "sender_id":sender_id}],
-
-#                      3:[ss.scr_dict['add_category'],
-#                         {"category":message, "sender_id":sender_id}]}
-    
-#     pool, con, curs = cnnct()
-#     curs.execute(updation_dict[transaction_state][0], updation_dict[transaction_state][1])
-#     dscnnct(pool, con, curs)
-    
-#     transaction_state = getTransactionState(sender_id)
-#     if transaction_state == 4:
-#         commitTransaction(sender_id, completed_transaction)
-
 def commitTransaction(sender_id, completed_transaction):
     pool, con, curs = cnnct()
     curs.execute(ss.scr_dict['commit_transaction_2'], {"sender_id":sender_id, "item":completed_transaction['item'],
@@ -87,26 +43,6 @@ def commitTransaction(sender_id, completed_transaction):
                                                         "category":completed_transaction['category']})
     dscnnct(pool, con, curs)
     
-#### REDACTED ####
-# def commitTransaction(sender_id):
-#     user_id = getUserID(sender_id)
-#     pool, con, curs = cnnct()
-#     curs.execute(ss.scr_dict['commit_transaction'], {"sender_id":sender_id, "user_id":user_id})
-#     dscnnct(pool, con, curs)
-
-#### REDACTED ####
-# def abortTransaction(message, sender_id, transaction_state):
-#     pool, con, curs = cnnct()
-#     if message.lower() == '!abort':
-#         curs.execute(ss.scr_dict['init_abort_transaction'], 
-#                     {"previous_transaction_state":transaction_state, "sender_id":sender_id})
-#     elif transaction_state == 5:
-#         if message == 'y':
-#             curs.execute(ss.scr_dict['confirm_abort_transaction'], {"sender_id":sender_id})
-#         elif message == 'n':
-#             curs.execute(ss.scr_dict['stop_abort_transaction'], {"sender_id":sender_id})
-#     dscnnct(pool, con, curs)
-
 def checkCreds(sender_id):
     pool, con, curs = cnnct()
     curs.execute(ss.scr_dict['check_creds'], {"sender_id":sender_id})
@@ -121,25 +57,6 @@ def createAccount(sender_id, state, user_info):
     curs.execute(creation_dict[state], {"sender_id":sender_id, "email":user_info['email'], "hashed_password":user_info['hashed_password']})
     dscnnct(pool, con, curs)
 
-#### REDACTED ###
-# def createAccount(sender_id, state, email = None, password = None):
-#     creation_dict = {1:ss.scr_dict['create_account_state_1'],
-#                      2:ss.scr_dict['create_account_state_2'],
-#                      3:ss.scr_dict['create_account_state_3'],
-#                      4:ss.scr_dict['create_account_state_4'],
-#                      5:ss.scr_dict['create_account_state_5'],
-#                      6:ss.scr_dict['create_account_state_6'],
-#                      7:ss.scr_dict['create_account_state_7']}
-#     pool, con, curs = cnnct()
-#     curs.execute(creation_dict[state], {"sender_id":sender_id, "email":email, "hashed_password":password})
-#     dscnnct(pool, con, curs)
-    
-#### REDACTED ####
-# def deleteNewSender(sender_id):
-#     pool, con, curs = cnnct()
-#     curs.execute(ss.scr_dict['delete_new_sender'], {"sender_id":sender_id})
-#     dscnnct(pool, con, curs)
-
 def lastTenTransactions(sender_id):
     user_id = getUserID(sender_id)
     pool, con, curs = cnnct()
@@ -152,16 +69,6 @@ def deleteUser(sender_id):
     pool, con, curs = cnnct()
     curs.execute(ss.scr_dict['delete_user'], {"sender_id":sender_id})
     dscnnct(pool, con, curs)
-
-#### REDACTED ####
-# def deleteUser(sender_id, state):
-#     deletion_dict = {1:ss.scr_dict['init_user_deletion'],
-#                      2:ss.scr_dict['delete_user'],
-#                      3:ss.scr_dict['abort_user_deletion']}
-
-#     pool, con, curs = cnnct()
-#     curs.execute(deletion_dict[state], {"sender_id":sender_id})
-#     dscnnct(pool, con, curs)
 
 def checkIfEmailInUse(email):
     pool, con, curs = cnnct()
