@@ -46,25 +46,3 @@ def process_command(message, transaction_state, sender_id, chat_id):
 
     elif transaction_state == 5:
         return r.wrong_input_reply(3)
-        
-#### REDACTED ####
-# def process_command(message, transaction_state, sender_id, chat_id):
-#     if transaction_state is None:
-#         if message.lower() == '!help':
-#             return r.command_reply(command = 1)
-        
-#     elif transaction_state in range(0, 4):
-#         if message.lower() == '!non_text_input':
-#             ac.sendMsg(chat_id, r.wrong_input_reply(input_error_code = 10))
-#             return r.standard_reply(transaction_state-1)
-#         if message.lower() == '!help':
-#             return r.command_reply(command = 2)
-#         if message.lower() == '!abort':
-#             db.abortTransaction(message, sender_id, transaction_state)
-#             return r.command_reply(command = 3)
-#         else:
-#             ac.sendMsg(chat_id, r.command_reply(command = 2))
-#             return r.standard_reply(transaction_state = transaction_state-1)
-    
-#     elif transaction_state == 5:
-#         return r.wrong_input_reply(3)

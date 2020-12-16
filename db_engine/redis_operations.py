@@ -65,12 +65,3 @@ def createAccount(sender_id, state, email = None, hashed_password = None):
 def getUserInfo(sender_id, requested_info):
     key = f'on_tra:{sender_id}'
     return red.hget(key, requested_info)
-
-
-
-    
-
-    
-        
-
-

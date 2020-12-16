@@ -89,8 +89,6 @@ except ModuleNotFoundError:
 
 
 def return_message(message, sender_id, chat_id):
-    #### REDACTED ####
-    # transaction_state = db.getTransactionState(sender_id)
     transaction_state = red.getTransactionState(sender_id)
     cred_state = db.checkCreds(sender_id)
     print(cred_state)

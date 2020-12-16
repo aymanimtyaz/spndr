@@ -58,7 +58,7 @@ def createAccount(sender_id, state, user_info):
     dscnnct(pool, con, curs)
 
 def lastTenTransactions(sender_id):
-    user_id = getUserID(sender_id)
+    user_id = getUserInfo(sender_id, 'id')
     pool, con, curs = cnnct()
     curs.execute(ss.scr_dict['get_last_ten_transactions'], {"user_id":user_id})
     spending_data = curs.fetchmany(10)
@@ -84,12 +84,21 @@ def retrievePassword(email):
     dscnnct(pool, con, curs)
     return hashed_password
 
-def getUserID(sender_id):
+def getUserInfo(sender_id, requested_info):
+    request_dict = {'id':ss.scr_dict['get_user_id']}
     pool, con, curs = cnnct()
-    curs.execute(ss.scr_dict['get_user_id'], {"sender_id":sender_id})
-    user_id = curs.fetchone()[0]
+    curs.execute(request_dict[requested_info], {"sender_id":sender_id})
+    requested_info = curs.fetchone()[0]
     dscnnct(pool, con, curs)
-    return user_id
+    return requested_info   
+
+#### REDACTED ####
+# def getUserID(sender_id):
+#     pool, con, curs = cnnct()
+#     curs.execute(ss.scr_dict['get_user_id'], {"sender_id":sender_id})
+#     user_id = curs.fetchone()[0]
+#     dscnnct(pool, con, curs)
+#     return user_id
 
 '''################################################################################################################################'''
 
