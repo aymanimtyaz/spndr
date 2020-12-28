@@ -80,7 +80,10 @@ def checkIfEmailInUse(email):
 def retrievePassword(email):
     pool, con, curs = cnnct()
     curs.execute(ss.scr_dict['retrieve_password'], {"email":email})
-    hashed_password = curs.fetchone()[0]
+    try:
+        hashed_password = curs.fetchone()[0]
+    except TypeError:
+        hashed_password = None
     dscnnct(pool, con, curs)
     return hashed_password
 

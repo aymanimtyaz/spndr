@@ -67,6 +67,8 @@ def process_unreg_sender(message, sender_id, transaction_state):
         if transaction_state == 4:
             email = red.getUserInfo(sender_id, requested_info = 'email')
             hashed_password = db.retrievePassword(email)
+            if hashed_password is None:
+                return r.wrong_input_reply(input_error_code = 9)
             if check_password_hash(hashed_password, message):
                 red.createAccount(sender_id, state = 'login')
                 return r.unregistered_sender_reply(state = 7)
