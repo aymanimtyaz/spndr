@@ -91,8 +91,6 @@ except ModuleNotFoundError:
 def return_message(message, sender_id, chat_id):
     transaction_state = red.getTransactionState(sender_id)
     cred_state = db.checkCreds(sender_id)
-    print(cred_state)
-
     if cred_state is False:
         return process_unreg_sender(message, sender_id, transaction_state)
 

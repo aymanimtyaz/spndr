@@ -26,10 +26,15 @@
 
     10. get_last_ten_transactions_ws() - This function get the 10 latest transactions of a user when they login to spndr on the website.
 '''
+# try:
+#     from spndr_tg.db_engine.db_interface import cnnct, dscnnct
+# except ModuleNotFoundError:
+#     from db_engine.db_interface import cnnct, dscnnct
+
 try:
-    from spndr_tg.db_engine.db_interface import cnnct, dscnnct
+    from spndr_tg.db_engine.db_interface import dbc
 except ModuleNotFoundError:
-    from db_engine.db_interface import cnnct, dscnnct
+    from db_engine.db_interface import dbc
 
 try:    
     from spndr_tg.db_engine.db_scripts_loader import sql_scripts as ss
@@ -37,62 +42,62 @@ except ModuleNotFoundError:
     from db_engine.db_scripts_loader import sql_scripts as ss
 
 def commitTransaction(sender_id, completed_transaction):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['commit_transaction_2'], {"sender_id":sender_id, "item":completed_transaction['item'],
                                                        "price":completed_transaction['price'], "vendor":completed_transaction['vendor'],
                                                         "category":completed_transaction['category']})
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     
 def checkCreds(sender_id):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['check_creds'], {"sender_id":sender_id})
     creds_exist = curs.fetchone()[0]
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     return creds_exist
 
 def createAccount(sender_id, state, user_info):
     creation_dict = {'login':ss.scr_dict['create_account_login'],
                      'signup':ss.scr_dict['create_account_signup']}
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(creation_dict[state], {"sender_id":sender_id, "email":user_info['email'], "hashed_password":user_info['hashed_password']})
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
 
 def lastTenTransactions(sender_id):
     user_id = getUserInfo(sender_id, 'id')
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['get_last_ten_transactions'], {"user_id":user_id})
     spending_data = curs.fetchmany(10)
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     return spending_data
     
 def deleteUser(sender_id):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['delete_user'], {"sender_id":sender_id})
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
 
 def checkIfEmailInUse(email):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['check_if_email_in_use'], {"email":email})
     email_exists = curs.fetchone()[0]
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     return email_exists
 
 def retrievePassword(email):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['retrieve_password'], {"email":email})
     try:
         hashed_password = curs.fetchone()[0]
     except TypeError:
         hashed_password = None
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     return hashed_password
 
 def getUserInfo(sender_id, requested_info):
     request_dict = {'id':ss.scr_dict['get_user_id']}
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(request_dict[requested_info], {"sender_id":sender_id})
     requested_info = curs.fetchone()[0]
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     return requested_info   
 
 #### REDACTED ####
@@ -106,14 +111,14 @@ def getUserInfo(sender_id, requested_info):
 '''################################################################################################################################'''
 
 def add_new_transaction_ws(id, item, price, vendor, category):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['add_new_transaction_ws'], {"id":id, "item":item, "price":price, "vendor":vendor, "category":category})
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
 
 def get_last_ten_transactions_ws(id):
-    pool, con, curs = cnnct()
+    con, curs = dbc.cnnct()
     curs.execute(ss.scr_dict['get_last_ten_transactions_ws'], {"id":id})
     spending_data = curs.fetchmany(10)
-    dscnnct(pool, con, curs)
+    dbc.dscnnct(con, curs)
     return spending_data
 
