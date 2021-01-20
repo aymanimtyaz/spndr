@@ -48,15 +48,10 @@ def init_app():
     print('Bot initiallized')
     print('******************************************************************************************')
 
-def main():
-    while True:
-        sid, msg, cid = get_update()
-        print('MESSAGE SENT:', msg)
-        message_to_return = ae.return_message(msg, sid, cid)
-        ac.sendMsg(cid, message_to_return)
-        print('\n')
 
-if __name__ == '__main__':
-    init_app()
-    main()
-    
+def start_event(json_update):
+    sid, msg, cid = get_update(json_update)
+    print('MESSAGE SENT:', msg)
+    message_to_return = ae.return_message(msg, sid, cid)
+    ac.sendMsg(cid, message_to_return)
+    print('\n')
