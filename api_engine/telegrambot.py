@@ -36,7 +36,12 @@ class communicate:
         self.data = None
         self.init = init
 
+        self.httpcon = requests.Session()
+
     def receive(self):
+        
+        ''' will not be used if a webhook is set up to get updates from telegram '''
+        
         api_params = {"offset":self.offset, "limit":self.limit,
                       "timeout":self.timeout, "allowed_updates":self.allowed_updates}
         req_obj = requests.post(self.service_url_prefix+self.token+'/getUpdates', 
@@ -53,7 +58,5 @@ class communicate:
     def send(self, chat_id, text):
         api_params = {"chat_id":chat_id, "text":text}
 
-        req_obj = requests.post(self.service_url_prefix+self.token+'/sendMessage',
+        self.httpcon.post(self.service_url_prefix+self.token+'/sendMessage',
                                data=api_params)
-
-        json_resp = req_obj.json()
