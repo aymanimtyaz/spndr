@@ -19,5 +19,5 @@ def postUpdate():
     start_event(request.get_json())
     return 'True'
 
-def start_webhook_endpoint():
-    webhook_endpoint.run(port = webhook_port)
+if __name__ == '__main__':
+    webhook_endpoint.run()

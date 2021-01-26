@@ -38,23 +38,6 @@ class communicate:
 
         self.httpcon = requests.Session()
 
-    def receive(self):
-        
-        ''' will not be used if a webhook is set up to get updates from telegram '''
-        
-        api_params = {"offset":self.offset, "limit":self.limit,
-                      "timeout":self.timeout, "allowed_updates":self.allowed_updates}
-        req_obj = requests.post(self.service_url_prefix+self.token+'/getUpdates', 
-                               data=api_params)
-        self.data = req_obj.json()
-        if len(self.data['result'])==0:
-            return None
-        if self.init == 0:
-            self.offset = self.data['result'][-1]['update_id']
-            self.init+=1
-        self.offset+=1
-        return self.data
-
     def send(self, chat_id, text):
         api_params = {"chat_id":chat_id, "text":text}
 
