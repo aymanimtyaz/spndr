@@ -42,7 +42,8 @@ def wrong_input_reply(input_error_code):
                    7:rd.wrong_input_replies['unreg_sender_wrong_email'],
                    8:rd.wrong_input_replies['unreg_sender_existing_email'],
                    9:rd.wrong_input_replies['unreg_sender_login_wrong_password'],
-                   10:rd.wrong_input_replies['non_text_input']}
+                   10:rd.wrong_input_replies['non_text_input'],
+                   11:rd.wrong_input_replies['unreg_sender_email_doesnt_exist']}
     return return_dict[input_error_code]
 
 def special_reply(state):

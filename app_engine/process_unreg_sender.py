@@ -56,8 +56,10 @@ def process_unreg_sender(message, sender_id, transaction_state):
         if not email_is_valid(message):
             return r.wrong_input_reply(input_error_code = 7)
         if transaction_state == 2:
-            red.createAccount(sender_id, state = 4, email = message)
-            return r.unregistered_sender_reply(state = 5)
+            if db.checkIfEmailInUse(email = message):
+                red.createAccount(sender_id, state = 4, email = message)
+                return r.unregistered_sender_reply(state = 5)
+            return r.wrong_input_reply(input_error_code = 11)
         if not db.checkIfEmailInUse(email = message):
             red.createAccount(sender_id, state = 5, email = message)
             return r.unregistered_sender_reply(state = 6)
