@@ -3,15 +3,15 @@ telegram account to your spndr
 account!
 
 To start a new transaction, send
-new.
+/new.
 
 To look at 10 of your latest
-transactions, send show.
+transactions, send /show.
 
 For a list of commands, send
-!help.
+/help.
 
 If you want to abandon an ongoing
-transaction, send !abort.
+transaction, send /abort.
 
 Happy spndng!

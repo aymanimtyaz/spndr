@@ -29,8 +29,8 @@ def process_unreg_sender(message, sender_id, transaction_state):
         return r.unregistered_sender_reply(state = 1)
 
     if transaction_state == 0:
-        if message == 'y' or message == 'n':
-            if message == 'n':
+        if message.lower() == 'y' or message.lower() == 'n':
+            if message.lower() == 'n':
                 red.deleteTransaction(sender_id)
                 return r.unregistered_sender_reply(state = 3)
             red.createAccount(sender_id, state = 1)
@@ -38,7 +38,7 @@ def process_unreg_sender(message, sender_id, transaction_state):
         
         return r.wrong_input_reply(input_error_code = 4)
 
-    if message == '!quit':
+    if message == '/quit':
         red.deleteTransaction(sender_id)
         return r.unregistered_sender_reply(state = 3)
 

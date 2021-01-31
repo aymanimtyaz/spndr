@@ -1,2 +1,3 @@
 What category does this purchase
-belong to?
+belong to? 
+/abort

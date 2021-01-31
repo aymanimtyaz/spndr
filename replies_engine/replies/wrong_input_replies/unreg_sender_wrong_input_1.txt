@@ -4,3 +4,4 @@ spndr account.
 
 Send 2 if you would like to
 create a new spndr account.
+/quit

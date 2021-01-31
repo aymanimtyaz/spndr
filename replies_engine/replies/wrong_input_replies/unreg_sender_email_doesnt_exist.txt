@@ -1,3 +1,4 @@
 The email entered is not registered
 with spndr, please enter another 
-email.
+email. 
+/quit

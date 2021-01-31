@@ -1,1 +1,3 @@
 Your purchase has been recorded!
+/show  
+/new

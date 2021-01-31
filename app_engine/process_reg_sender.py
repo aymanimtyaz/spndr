@@ -20,17 +20,17 @@ except ModuleNotFoundError:
 
 def process_reg_sender(message, sender_id, chat_id, transaction_state):
     if transaction_state is None:
-
-        if message.lower() == 'new':
-            red.createNewTransaction(sender_id)
-            return r.standard_reply(transaction_state)
+        pass
+        # if message.lower() == 'new':
+        #     red.createNewTransaction(sender_id)
+        #     return r.standard_reply(transaction_state)
         
-        if message.lower() == 'show':
-            return generate_show_reply(sender_id, chat_id)
+        # if message.lower() == 'show':
+        #     return generate_show_reply(sender_id, chat_id)
         
-        if message.lower() == 'delete':
-            red.initDeleteUser(sender_id)
-            return r.special_reply(state = 6)
+        # if message.lower() == 'delete':
+        #     red.initDeleteUser(sender_id)
+        #     return r.special_reply(state = 6)
 
     elif transaction_state in range(0,4):
          
@@ -48,8 +48,8 @@ def process_reg_sender(message, sender_id, chat_id, transaction_state):
 
     elif transaction_state == 5:
 
-        if message == 'y' or message == 'n':
-            if message == 'y':
+        if message.lower() == 'y' or message.lower() == 'n':
+            if message.lower() == 'y':
                 red.abortTransaction(sender_id, state = 'abort')
                 return r.special_reply(state = 1)
             red.abortTransaction(sender_id, state = 'skip')
@@ -59,25 +59,25 @@ def process_reg_sender(message, sender_id, chat_id, transaction_state):
 
     elif transaction_state == 6:
 
-        if message == 'y' or message == 'n':
+        if message.lower() == 'y' or message.lower() == 'n':
             red.deleteTransaction(sender_id)
-            if message == 'y':
+            if message.lower() == 'y':
                 db.deleteUser(sender_id)
                 return r.special_reply(state = 7)
             return r.special_reply(state = 8)
         return r.wrong_input_reply(input_error_code = 5)
             
-def generate_show_reply(sender_id, chat_id):
-    spending_data = db.lastTenTransactions(sender_id)
-    if len(spending_data) == 0:
-        return r.special_reply(state = 4)
-    ac.sendMsg(chat_id, r.special_reply(state = 3))
-    ret_str = ''; i=1
-    for row in spending_data:
-        article = 'An' if row[0].lower()[0] in ['a', 'e', 'i', 'o', 'u'] else 'A'
-        if row[0].lower().endswith('s'):
-            article = '' 
-        ret_str+=str(i)+str(r.special_reply(state = 5)).format(
-        article, row[0], row[1], row[2], row[3])+'\n\n'
-        i+=1
-    return ret_str
+# def generate_show_reply(sender_id, chat_id):
+#     spending_data = db.lastTenTransactions(sender_id)
+#     if len(spending_data) == 0:
+#         return r.special_reply(state = 4)
+#     ac.sendMsg(chat_id, r.special_reply(state = 3))
+#     ret_str = ''; i=1
+#     for row in spending_data:
+#         article = 'An' if row[0].lower()[0] in ['a', 'e', 'i', 'o', 'u'] else 'A'
+#         if row[0].lower().endswith('s'):
+#             article = '' 
+#         ret_str+=str(i)+str(r.special_reply(state = 5)).format(
+#         article, row[0], row[1], row[2], row[3])+'\n\n'
+#         i+=1
+#     return ret_str

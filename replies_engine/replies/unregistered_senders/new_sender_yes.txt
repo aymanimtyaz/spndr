@@ -9,4 +9,4 @@ create a new spndr account.
 
 If you would like to stop at 
 any point in the login process,
-send !quit.
+send /quit.

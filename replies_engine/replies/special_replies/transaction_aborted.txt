@@ -1,2 +1,3 @@
 The ongoing transaction was
-successfully aborted.
+successfully aborted. 
+/new

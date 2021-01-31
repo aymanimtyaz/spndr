@@ -3,3 +3,4 @@ through telegram?
 
 Send y for yes.
 Send n for no.
+/quit
