@@ -43,14 +43,14 @@ except ModuleNotFoundError:
 
 def commitTransaction(sender_id, completed_transaction):
     con, curs = dbc.cnnct()
-    curs.execute(ss.scr_dict['commit_transaction_2'], {"sender_id":sender_id, "item":completed_transaction['item'],
+    curs.execute(ss.scr_dict['commit_transaction_2'], {"sender_id":str(sender_id), "item":completed_transaction['item'],
                                                        "price":completed_transaction['price'], "vendor":completed_transaction['vendor'],
                                                         "category":completed_transaction['category']})
     dbc.dscnnct(con, curs)
     
 def checkCreds(sender_id):
     con, curs = dbc.cnnct()
-    curs.execute(ss.scr_dict['check_creds'], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['check_creds'], {"sender_id":str(sender_id)})
     creds_exist = curs.fetchone()[0]
     dbc.dscnnct(con, curs)
     return creds_exist
@@ -72,7 +72,7 @@ def lastTenTransactions(sender_id):
     
 def deleteUser(sender_id):
     con, curs = dbc.cnnct()
-    curs.execute(ss.scr_dict['delete_user'], {"sender_id":sender_id})
+    curs.execute(ss.scr_dict['delete_user'], {"sender_id":str(sender_id)})      
     dbc.dscnnct(con, curs)
 
 def checkIfEmailInUse(email):
@@ -95,7 +95,7 @@ def retrievePassword(email):
 def getUserInfo(sender_id, requested_info):
     request_dict = {'id':ss.scr_dict['get_user_id']}
     con, curs = dbc.cnnct()
-    curs.execute(request_dict[requested_info], {"sender_id":sender_id})
+    curs.execute(request_dict[requested_info], {"sender_id":str(sender_id)})
     requested_info = curs.fetchone()[0]
     dbc.dscnnct(con, curs)
     return requested_info   

@@ -20,4 +20,4 @@ def postUpdate():
     return 'True'
 
 if __name__ == '__main__':
-    webhook_endpoint.run()
+    webhook_endpoint.run(port = 6000)

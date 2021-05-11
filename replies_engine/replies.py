@@ -54,7 +54,9 @@ def special_reply(state):
                    5:rd.special_replies['last_ten_transactions'],
                    6:rd.special_replies['confirm_user_deletion'],
                    7:rd.special_replies['user_deleted'],
-                   8:rd.special_replies['user_deletion_aborted']}
+                   8:rd.special_replies['user_deletion_aborted'],
+                   9:rd.special_replies['welcome_on_chatbot_signup'],
+                   10:rd.special_replies['unknown_sender']}
     return return_dict[state]
 
 def command_reply(command):
