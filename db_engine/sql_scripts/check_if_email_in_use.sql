@@ -1,1 +1,0 @@
-SELECT EXISTS (SELECT email FROM users WHERE email = (%(email)s));

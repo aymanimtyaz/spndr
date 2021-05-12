@@ -1,2 +1,0 @@
-Are you sure you want abort the
-ongoing transaction (y/n)?

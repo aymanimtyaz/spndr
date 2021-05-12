@@ -1,3 +1,0 @@
-Enter the name of the product
-or service that you bought.
-/abort

@@ -1,7 +1,0 @@
-LIST OF AVAILABLE COMMANDS:
-
-/new - Starts a new transaction.
-/show - See your last 10 purchases.
-/delete - Delete your account.
-/help - Brings up this dialogue.      
-

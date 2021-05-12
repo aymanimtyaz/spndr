@@ -1,2 +1,0 @@
-The ongoing transaction was 
-not aborted.

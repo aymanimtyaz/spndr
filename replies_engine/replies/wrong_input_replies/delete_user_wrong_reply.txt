@@ -1,6 +1,0 @@
-Would you like to unlink this
-telegram account from your 
-spndr account (y/n) ?
-
-Send y for yes.
-Send n for no.

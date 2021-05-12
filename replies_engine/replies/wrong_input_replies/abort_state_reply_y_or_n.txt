@@ -1,5 +1,0 @@
-Please confirm if you would like 
-to abort the ongoing transaction.
-
-Reply y for yes.
-Reply n for no.

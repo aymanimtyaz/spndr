@@ -1,1 +1,0 @@
-. {} {} for {} dollars from {} on {}.

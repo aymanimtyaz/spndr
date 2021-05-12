@@ -1,3 +1,0 @@
-Enter the price paid for the
-product/service.
-/abort
