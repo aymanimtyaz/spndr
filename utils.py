@@ -30,4 +30,4 @@ def generate_show_reply(sender_id):
             article = '' 
         ret_str+=str(i)+str(". {} {} for {} dollars from {} on {}.".format(article, row[0], row[1], row[2], row[3])+'\n\n')
         i+=1
-    return "Your last 10 transaction:\n"+ret_str
+    return "Your last 10 transaction:\n\n"+ret_str

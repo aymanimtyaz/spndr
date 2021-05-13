@@ -54,7 +54,7 @@ def default(input):
                 /abort
                 """)
             ac.sendMsg(chat_id, reply_text)
-            return "transaction_initiated"
+            return "get_item"
         elif message == "/show":
             reply_text = generate_show_reply(sender_id)
             ac.sendMsg(chat_id, reply_text)
@@ -67,10 +67,17 @@ def default(input):
                 spndr account (y/n)?
                 """)
             ac.sendMsg(chat_id, reply_text)
-            return "account_deletion_initiated"
+            return "get_account_deletion_confirmation"
+        else:
+            reply_text = (
+                """
+                Type /help to get a list of commands.
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return None
 
-@chatbot.state_handler("account_deletion_initiated")
-def account_deletion_initiated(input):
+@chatbot.state_handler("get_account_deletion_confirmation")
+def get_account_deletion_confirmation(input):
     message, chat_id, sender_id = input[0].lower(), input[1], input[2]
     if message in ["y", "n"]:
         if message == "y":
@@ -113,31 +120,44 @@ def account_deletion_initiated(input):
             Send n for no.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "account_deletion_initiated"
+        return "get_account_deletion_confirmation"
 
 
 
-@chatbot.state_handler("transaction_initiated")
-def transaction_initiated(input):
+@chatbot.state_handler("get_item")
+def get_item(input):
     message, chat_id, sender_id = input[0], input[1], input[2]
-    if message.lower() == "/abort":
-        reply_text = (
-            """
-            Are you sure you want to abort
-            this transaction? (y/n)
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "transaction_initiated_abort"
-    elif message.lower() == "/help":
-        reply_text = (
-            """
-            LIST OF AVAILABLE COMMANDS:
+    if message.lower()[0] == "/":
+        if message.lower() == "/abort":
+            reply_text = (
+                """
+                Are you sure you want to abort
+                this transaction? (y/n)
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_item_abort"
+        elif message.lower() == "/help":
+            reply_text = (
+                """
+                LIST OF AVAILABLE COMMANDS:
 
-            /abort - aborts the current transaction.
-            /help - brings up this dialogue.
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "transaction_initiated"
+                /abort - aborts the current transaction.
+                /help - brings up this dialogue.
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_item"
+        else:
+            reply_text = (
+                """
+                Type /help to get a list of 
+                available commands.
+
+                Enter the name of the product
+                or service that you bought.
+                /abort
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_item"
     else:
         item = message
         red.hset(name=f"on_tra{sender_id}", mapping={"item":item})
@@ -146,29 +166,41 @@ def transaction_initiated(input):
             How much did you spend?
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "item_name_received"
+        return "get_price"
 
-@chatbot.state_handler("item_name_received")
-def item_name_received(input):
+@chatbot.state_handler("get_price")
+def get_price(input):
     message, chat_id, sender_id = input[0], input[1], input[2]
-    if message.lower() == "/abort":
-        reply_text = (
-            """
-            Are you sure you want to abort
-            this transaction? (y/n)
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "item_name_received_abort"
-    elif message.lower() == "/help":
-        reply_text = (
-            """
-            LIST OF AVAILABLE COMMANDS:
+    if message.lower()[0] == "/":
+        if message.lower() == "/abort":
+            reply_text = (
+                """
+                Are you sure you want to abort
+                this transaction? (y/n)
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_price_abort"
+        elif message.lower() == "/help":
+            reply_text = (
+                """
+                LIST OF AVAILABLE COMMANDS:
 
-            /abort - aborts the current transaction.
-            /help - brings up this dialogue.
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "item_name_received"
+                /abort - aborts the current transaction.
+                /help - brings up this dialogue.
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_price"
+        else:
+            reply_text = (
+                """
+                Type /help to get a list of 
+                available commands.
+
+                How much did you spend?
+                /abort
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_price"
     try:
         float(message)
     except ValueError:
@@ -178,7 +210,7 @@ def item_name_received(input):
             for the price.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "item_name_received"
+        return "get_price"
     if float(message) <= 0:
         reply_text = (
             """
@@ -187,7 +219,7 @@ def item_name_received(input):
             price.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "item_name_received"
+        return "get_price"
     price = float(message)
     red.hset(f"on_tra{sender_id}", mapping={"price":price})
     reply_text = (
@@ -196,29 +228,42 @@ def item_name_received(input):
         from?
         """)
     ac.sendMsg(chat_id, reply_text)
-    return "price_received"
+    return "get_vendor"
 
-@chatbot.state_handler("price_received")
-def price_received(input):
+@chatbot.state_handler("get_vendor")
+def get_vendor(input):
     message, chat_id, sender_id = input[0], input[1], input[2]
-    if message.lower() == "/abort":
-        reply_text = (
-            """
-            Are you sure you want to abort
-            this transaction? (y/n)
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "price_received_abort"
-    elif message.lower() == "/help":
-        reply_text = (
-            """
-            LIST OF AVAILABLE COMMANDS:
+    if message.lower()[0] == "/":
+        if message.lower() == "/abort":
+            reply_text = (
+                """
+                Are you sure you want to abort
+                this transaction? (y/n)
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_vendor_abort"
+        elif message.lower() == "/help":
+            reply_text = (
+                """
+                LIST OF AVAILABLE COMMANDS:
 
-            /abort - aborts the current transaction.
-            /help - brings up this dialogue.
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "price_received"
+                /abort - aborts the current transaction.
+                /help - brings up this dialogue.
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_vendor"
+        else:
+            reply_text = (
+                """
+                Type /help to get a list of 
+                available commands.
+
+                Where did you buy this product
+                from?
+                /abort
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_vendor"
     vendor = message
     red.hset(f"on_tra{sender_id}", mapping={"vendor":vendor})
     reply_text = (
@@ -227,29 +272,42 @@ def price_received(input):
         this purchase in?
         """)
     ac.sendMsg(chat_id, reply_text)
-    return "vendor_received"
+    return "get_category"
 
-@chatbot.state_handler("vendor_received")
-def vendor_received(input):
+@chatbot.state_handler("get_category")
+def get_category(input):
     message, chat_id, sender_id = input[0], input[1], input[2]
-    if message.lower() == "/abort":
-        reply_text = (
-            """
-            Are you sure you want to abort
-            this transaction? (y/n)
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "vendor_received_abort"
-    elif message.lower() == "/help":
-        reply_text = (
-            """
-            LIST OF AVAILABLE COMMANDS:
+    if message.lower()[0] == "/":
+        if message.lower() == "/abort":
+            reply_text = (
+                """
+                Are you sure you want to abort
+                this transaction? (y/n)
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_category_abort"
+        elif message.lower() == "/help":
+            reply_text = (
+                """
+                LIST OF AVAILABLE COMMANDS:
 
-            /abort - aborts the current transaction.
-            /help - brings up this dialogue.
-            """)
-        ac.sendMsg(chat_id, reply_text)
-        return "vendor_received"
+                /abort - aborts the current transaction.
+                /help - brings up this dialogue.
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_category"
+        else:
+            reply_text = (
+                """
+                Type /help to get a list of 
+                available commands.
+
+                What category would you put
+                this purchase in?
+                /abort
+                """)
+            ac.sendMsg(chat_id, reply_text)
+            return "get_category"
     category = message
     transaction_info = red.hgetall(f"on_tra{sender_id}")
     red.delete(f"on_tra{sender_id}")
@@ -292,8 +350,8 @@ def vendor_received(input):
 
 
 
-@chatbot.state_handler("transaction_initiated_abort")
-def transaction_initiated_abort(input):
+@chatbot.state_handler("get_item_abort")
+def get_item_abort(input):
     message, chat_id, sender_id = input[0].lower(), input[1], input[2]
     if message in ["y", "n"]:
         if message == "y":
@@ -314,7 +372,7 @@ def transaction_initiated_abort(input):
             /abort
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "transaction_initiated"
+        return "get_item"
     else:
         reply_text = (
             """
@@ -325,10 +383,10 @@ def transaction_initiated_abort(input):
             Reply n for no.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "transaction_initiated_abort"
+        return "get_item_abort"
 
-@chatbot.state_handler("item_name_received_abort")
-def item_name_received_abort(input):
+@chatbot.state_handler("get_price_abort")
+def get_price_abort(input):
     message, chat_id, sender_id = input[0].lower(), input[1], input[2]
     if message in ["y", "n"]:
         if message == "y":
@@ -348,7 +406,7 @@ def item_name_received_abort(input):
             /abort
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "item_name_received"
+        return "get_price"
     else:
         reply_text = (
             """
@@ -359,10 +417,10 @@ def item_name_received_abort(input):
             Reply n for no.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "item_name_received_abort"
+        return "get_price_abort"
 
-@chatbot.state_handler("price_received_abort")
-def price_received_abort(input):
+@chatbot.state_handler("get_vendor_abort")
+def get_vendor_abort(input):
     message, chat_id, sender_id = input[0].lower(), input[1], input[2]
     if message in ["y", "n"]:
         if message == "y":
@@ -383,7 +441,7 @@ def price_received_abort(input):
             /abort
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "price_received"
+        return "get_vendor"
     else:
         reply_text = (
             """
@@ -394,10 +452,10 @@ def price_received_abort(input):
             Reply n for no.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "price_received_abort"
+        return "get_vendor_abort"
 
-@chatbot.state_handler("vendor_received_abort")
-def vendor_received_abort(input):
+@chatbot.state_handler("get_category_abort")
+def get_category_abort(input):
     message, chat_id, sender_id = input[0].lower(), input[1], input[2]
     if message in ["y", "n"]:
         if message == "y":
@@ -418,7 +476,7 @@ def vendor_received_abort(input):
             /abort
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "vendor_received"
+        return "get_category"
     else:
         reply_text = (
             """
@@ -429,4 +487,4 @@ def vendor_received_abort(input):
             Reply n for no.
             """)
         ac.sendMsg(chat_id, reply_text)
-        return "vendor_received_abort"
+        return "get_category_abort"
