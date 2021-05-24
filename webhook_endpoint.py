@@ -1,25 +1,20 @@
 from flask import Flask, request
-import json
 
-# try:
-#     from spndr_tg.main_webhook import start_event, init_app
-# except ModuleNotFoundError:
-#     from main_webhook import start_event, init_app
+from config import webhook_port, debug
+from telegram_automation.telegram import TelegramMessage
+from chatbot_engine import chatbot
 
-from main_webhook import start_event
-
-try:
-    from spndr_tg.config import webhook_port, debug
-except ModuleNotFoundError:
-    from config import webhook_port, debug
-
-# init_app()
 webhook_endpoint = Flask(__name__)
 
 @webhook_endpoint.route('/postUpdate', methods = ['POST'])
 def postUpdate():
-    start_event(request.get_json())
-    return 'True'
+    telegram_message = TelegramMessage(request.get_json())
+    chatbot.execute(
+        uid=telegram_message.sender_id, 
+        message=telegram_message.message, 
+        chat_id=telegram_message.chat_id, 
+        sender_id=telegram_message.sender_id)
+    return 'True', 200
 
 if __name__ == '__main__':
     webhook_endpoint.run(port = webhook_port, debug = debug)

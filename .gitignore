@@ -3,3 +3,5 @@ config.py
 *.json
 venv
 .vscode
+stateengine/
+telegram_automation/
