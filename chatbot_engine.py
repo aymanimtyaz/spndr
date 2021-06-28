@@ -1,11 +1,12 @@
 
 from stateengine import IntegratedStateEngine
-from extensions import t
+
+from extensions import t, red
 from db_interface import dbc
-from extensions import red
 from utils import generate_show_reply
 
-chatbot = IntegratedStateEngine()
+chatbot = IntegratedStateEngine(use_redis=True)
+
 
 @chatbot.state_handler("default", default=True)
 def default(message, chat_id, sender_id):
@@ -22,7 +23,7 @@ def default(message, chat_id, sender_id):
             );
             """)
         with dbc as curs:
-            curs.execute(sql, {"sender_id":str(sender_id)})
+            curs.execute(sql, {"sender_id": str(sender_id)})
             is_chatbot_user = curs.fetchone()[0]
         if not is_chatbot_user:
             reply_text = (
@@ -76,6 +77,7 @@ def default(message, chat_id, sender_id):
             t.send_message(chat_id, reply_text)
             return None
 
+
 @chatbot.state_handler("get_account_deletion_confirmation")
 def get_account_deletion_confirmation(message, chat_id, sender_id):
     message = message.lower()
@@ -88,7 +90,7 @@ def get_account_deletion_confirmation(message, chat_id, sender_id):
                 client_id = (%(sender_id)s);
                 """)
             values = {
-                "sender_id":str(sender_id),
+                "sender_id": str(sender_id),
             }
             with dbc as curs:
                 curs.execute(sql, values)
@@ -121,7 +123,6 @@ def get_account_deletion_confirmation(message, chat_id, sender_id):
             """)
         t.send_message(chat_id, reply_text)
         return "get_account_deletion_confirmation"
-
 
 
 @chatbot.state_handler("get_item")
@@ -159,13 +160,14 @@ def get_item(message, chat_id, sender_id):
             return "get_item"
     else:
         item = message
-        red.hset(name=f"on_tra{sender_id}", mapping={"item":item})
+        red.hset(name=f"on_tra{sender_id}", mapping={"item": item})
         reply_text = (
             """
             How much did you spend?
             """)
         t.send_message(chat_id, reply_text)
         return "get_price"
+
 
 @chatbot.state_handler("get_price")
 def get_price(message, chat_id, sender_id):
@@ -219,7 +221,7 @@ def get_price(message, chat_id, sender_id):
         t.send_message(chat_id, reply_text)
         return "get_price"
     price = float(message)
-    red.hset(f"on_tra{sender_id}", mapping={"price":price})
+    red.hset(f"on_tra{sender_id}", mapping={"price": price})
     reply_text = (
         """
         Where did you buy this product 
@@ -227,6 +229,7 @@ def get_price(message, chat_id, sender_id):
         """)
     t.send_message(chat_id, reply_text)
     return "get_vendor"
+
 
 @chatbot.state_handler("get_vendor")
 def get_vendor(message, chat_id, sender_id):
@@ -262,7 +265,7 @@ def get_vendor(message, chat_id, sender_id):
             t.send_message(chat_id, reply_text)
             return "get_vendor"
     vendor = message
-    red.hset(f"on_tra{sender_id}", mapping={"vendor":vendor})
+    red.hset(f"on_tra{sender_id}", mapping={"vendor": vendor})
     reply_text = (
         """
         What category would you put
@@ -270,6 +273,7 @@ def get_vendor(message, chat_id, sender_id):
         """)
     t.send_message(chat_id, reply_text)
     return "get_category"
+
 
 @chatbot.state_handler("get_category")
 def get_category(message, chat_id, sender_id):
@@ -327,11 +331,11 @@ def get_category(message, chat_id, sender_id):
         );
         """)
     values = {
-        "sender_id":str(sender_id),
-        "item":transaction_info["item"],
-        "price":transaction_info["price"],
-        "vendor":transaction_info["vendor"],
-        "category":transaction_info["category"]
+        "sender_id": str(sender_id),
+        "item": transaction_info["item"],
+        "price": transaction_info["price"],
+        "vendor": transaction_info["vendor"],
+        "category": transaction_info["category"]
     }
     with dbc as curs:
         curs.execute(sql, values)
@@ -343,7 +347,6 @@ def get_category(message, chat_id, sender_id):
         """)
     t.send_message(chat_id, reply_text)
     return None
-
 
 
 @chatbot.state_handler("get_item_abort")

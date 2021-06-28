@@ -5,3 +5,4 @@ venv
 .vscode
 stateengine/
 telegram_automation/
+.idea
